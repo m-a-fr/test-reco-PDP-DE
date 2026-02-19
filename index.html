@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>User Test — Recommandations Produit · Validation Équipe Produit</title>
+  <title>User Test — Carrousel vs. Liste · Validation Équipe Produit</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;500;600;700;800&family=Roboto+Condensed:wght@700;800&display=swap" rel="stylesheet" />
@@ -11,10 +11,8 @@
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
     :root {
-      /* ── Raja.fr color system ── */
       --bg: #f2f4f9;
       --surface: #ffffff;
-      --surface-2: #f2f4f9;
       --border: #e0e3ea;
       --text-primary: #222831;
       --text-secondary: #656f84;
@@ -30,193 +28,239 @@
       --amber-light: #fff8ef;
       --red: #d42637;
       --red-light: #fff0f2;
-      --slate: #3a4259;
-      /* ── Layout ── */
       --radius: 4px;
       --radius-lg: 6px;
       --radius-btn: 32px;
-      --shadow: 0 1px 2px rgba(34,40,49,.06), 0 3px 10px rgba(34,40,49,.04);
-      --shadow-md: 0 4px 12px rgba(34,40,49,.1), 0 12px 32px rgba(34,40,49,.06);
+      --shadow: 0 1px 3px rgba(34,40,49,.07), 0 4px 12px rgba(34,40,49,.05);
+      --shadow-md: 0 4px 16px rgba(34,40,49,.1), 0 12px 32px rgba(34,40,49,.07);
+      --header-h: 52px;
+      --footer-h: 56px;
     }
 
-    html { scroll-behavior: smooth; }
-
-    body {
+    html, body {
+      height: 100%; width: 100%;
+      overflow: hidden;
       font-family: 'Open Sans', system-ui, sans-serif;
-      background: var(--bg);
-      color: var(--text-primary);
-      line-height: 1.6;
       font-size: 14px;
+      color: var(--text-primary);
+      background: var(--bg);
     }
 
-    /* ─── NAV ─── */
-    nav {
-      position: sticky;
-      top: 0;
-      z-index: 100;
+    /* ═══════════════════════════════════════
+       PROGRESS BAR
+    ═══════════════════════════════════════ */
+    .progress-bar {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      height: 3px;
+      background: var(--border);
+      z-index: 200;
+    }
+    .progress-fill {
+      height: 100%;
+      background: linear-gradient(90deg, var(--blue), var(--purple));
+      transition: width .4s ease;
+    }
+
+    /* ═══════════════════════════════════════
+       HEADER NAV
+    ═══════════════════════════════════════ */
+    .deck-header {
+      position: fixed;
+      top: 3px; left: 0; right: 0;
+      height: var(--header-h);
       background: #fff;
       border-bottom: 2px solid var(--blue);
-      padding: 0 2rem;
       box-shadow: 0 2px 8px rgba(34,40,49,.08);
+      z-index: 150;
     }
-    .nav-inner {
+    .deck-header-inner {
       max-width: 1100px;
       margin: 0 auto;
+      padding: 0 1.5rem;
+      height: 100%;
       display: flex;
       align-items: center;
       justify-content: space-between;
-      height: 54px;
       gap: 1rem;
     }
-    .nav-brand {
-      display: flex;
-      align-items: center;
-      gap: .6rem;
+    .brand {
+      font-family: 'Roboto Condensed', sans-serif;
       font-weight: 800;
       font-size: .95rem;
       color: var(--text-primary);
-      text-decoration: none;
-      font-family: 'Roboto Condensed', sans-serif;
-      letter-spacing: .01em;
+      display: flex;
+      align-items: center;
+      gap: .5rem;
     }
-    .nav-badge {
-      font-size: .68rem;
+    .brand-badge {
+      font-size: .65rem;
       font-weight: 700;
       padding: .2rem .5rem;
       border-radius: var(--radius);
       background: var(--blue);
       color: #fff;
-      letter-spacing: .06em;
+      letter-spacing: .07em;
       text-transform: uppercase;
     }
-    .nav-links {
+    .header-right {
       display: flex;
-      gap: 1.5rem;
-      list-style: none;
+      align-items: center;
+      gap: 1rem;
     }
-    .nav-links a {
-      font-size: .82rem;
+    .slide-title-mini {
+      font-size: .78rem;
       font-weight: 600;
       color: var(--text-secondary);
-      text-decoration: none;
-      transition: color .15s;
+      display: none;
     }
-    .nav-links a:hover { color: var(--blue); }
-    .nav-cta {
-      font-size: .82rem;
-      font-weight: 700;
-      padding: .5rem 1.25rem;
-      border-radius: var(--radius-btn);
-      background: linear-gradient(90deg, var(--blue), var(--purple));
-      color: #fff;
-      text-decoration: none;
-      transition: opacity .15s, box-shadow .15s;
-      white-space: nowrap;
-      letter-spacing: .01em;
-    }
-    .nav-cta:hover { opacity: .88; box-shadow: 0 4px 14px rgba(39,110,241,.35); }
-
-    /* ─── LAYOUT ─── */
-    .container {
-      max-width: 1100px;
-      margin: 0 auto;
-      padding: 0 2rem;
-    }
-
-    section { padding: 5rem 0; }
-    section:first-of-type { padding-top: 2rem; }
-
-    /* ─── HERO ─── */
-    .hero {
-      padding: 5rem 0 4rem;
-      position: relative;
-      overflow: hidden;
-    }
-    .hero::before {
-      content: '';
-      position: absolute;
-      top: -120px; right: -200px;
-      width: 700px; height: 700px;
-      border-radius: 50%;
-      background: radial-gradient(circle, rgba(39,110,241,.07) 0%, transparent 70%);
-      pointer-events: none;
-    }
-    .hero-eyebrow {
-      display: inline-flex;
+    @media (min-width: 640px) { .slide-title-mini { display: block; } }
+    .deck-controls {
+      display: flex;
       align-items: center;
       gap: .5rem;
-      font-size: .72rem;
-      font-weight: 700;
-      letter-spacing: .1em;
-      text-transform: uppercase;
-      color: var(--blue);
-      background: var(--blue-light);
-      border: 1px solid var(--blue-mid);
-      padding: .3rem .8rem;
+    }
+    .ctrl-btn {
+      width: 32px; height: 32px;
       border-radius: var(--radius);
-      margin-bottom: 1.25rem;
-    }
-    .hero-eyebrow::before { content: '●'; font-size: .45rem; }
-    h1 {
-      font-family: 'Roboto Condensed', sans-serif;
-      font-size: clamp(1.9rem, 4vw, 2.85rem);
-      font-weight: 800;
-      line-height: 1.12;
-      letter-spacing: -.01em;
-      margin-bottom: 1.1rem;
-      max-width: 780px;
-      color: var(--text-primary);
-    }
-    h1 em {
-      font-style: normal;
-      background: linear-gradient(90deg, var(--blue), var(--purple));
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-    }
-    .hero-sub {
-      font-size: 1rem;
+      border: 1.5px solid var(--border);
+      background: #fff;
       color: var(--text-secondary);
-      max-width: 600px;
-      margin-bottom: 2.25rem;
-      line-height: 1.7;
-    }
-    .hero-stats {
-      display: flex;
-      gap: .75rem;
-      flex-wrap: wrap;
-    }
-    .stat-pill {
+      font-size: 1rem;
+      cursor: pointer;
       display: flex;
       align-items: center;
-      gap: .55rem;
-      padding: .5rem 1rem;
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-      font-size: .82rem;
-      font-weight: 600;
-      color: var(--text-secondary);
-      box-shadow: var(--shadow);
+      justify-content: center;
+      transition: all .15s;
+      font-family: inherit;
     }
-    .stat-pill strong { color: var(--text-primary); font-weight: 700; }
-    .stat-pill .icon { font-size: .95rem; }
+    .ctrl-btn:hover:not(:disabled) {
+      border-color: var(--blue);
+      color: var(--blue);
+      background: var(--blue-light);
+    }
+    .ctrl-btn:disabled { opacity: .35; cursor: not-allowed; }
+    .slide-counter {
+      font-size: .8rem;
+      font-weight: 700;
+      color: var(--text-secondary);
+      min-width: 44px;
+      text-align: center;
+    }
+    .fullscreen-btn {
+      width: 32px; height: 32px;
+      border-radius: var(--radius);
+      border: 1.5px solid var(--border);
+      background: #fff;
+      color: var(--text-secondary);
+      font-size: .85rem;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all .15s;
+    }
+    .fullscreen-btn:hover { border-color: var(--blue); color: var(--blue); background: var(--blue-light); }
 
-    /* ─── SECTION HEADERS ─── */
+    /* ═══════════════════════════════════════
+       BOTTOM NAV (dots)
+    ═══════════════════════════════════════ */
+    .deck-footer {
+      position: fixed;
+      bottom: 0; left: 0; right: 0;
+      height: var(--footer-h);
+      background: #fff;
+      border-top: 1px solid var(--border);
+      z-index: 150;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: .4rem;
+      padding: 0 1rem;
+    }
+    .dot {
+      width: 7px; height: 7px;
+      border-radius: 50%;
+      background: var(--border);
+      cursor: pointer;
+      transition: all .2s;
+      border: none;
+      flex-shrink: 0;
+    }
+    .dot.active {
+      background: var(--blue);
+      width: 20px;
+      border-radius: 4px;
+    }
+    .dot:hover:not(.active) { background: var(--blue-mid); }
+
+    /* ═══════════════════════════════════════
+       SLIDES CONTAINER
+    ═══════════════════════════════════════ */
+    .deck {
+      position: fixed;
+      top: calc(var(--header-h) + 3px);
+      bottom: var(--footer-h);
+      left: 0; right: 0;
+      overflow: hidden;
+    }
+
+    .slide {
+      position: absolute;
+      inset: 0;
+      overflow-y: auto;
+      overflow-x: hidden;
+      opacity: 0;
+      pointer-events: none;
+      transform: translateX(48px);
+      transition: opacity .38s ease, transform .38s ease;
+      display: flex;
+      flex-direction: column;
+      scrollbar-width: thin;
+      scrollbar-color: var(--border) transparent;
+    }
+    .slide::-webkit-scrollbar { width: 4px; }
+    .slide::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
+
+    .slide.active {
+      opacity: 1;
+      pointer-events: all;
+      transform: translateX(0);
+    }
+    .slide.exit {
+      opacity: 0;
+      transform: translateX(-48px);
+      transition: opacity .28s ease, transform .28s ease;
+    }
+
+    /* ═══════════════════════════════════════
+       SLIDE INNER LAYOUT
+    ═══════════════════════════════════════ */
+    .slide-inner {
+      max-width: 1060px;
+      width: 100%;
+      margin: 0 auto;
+      padding: 2rem 1.5rem;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      min-height: 100%;
+    }
+    .slide-head { margin-bottom: 1.5rem; }
     .section-label {
       display: inline-flex;
       align-items: center;
       gap: .5rem;
-      font-size: .68rem;
+      font-size: .67rem;
       font-weight: 700;
       letter-spacing: .12em;
       text-transform: uppercase;
       color: var(--blue);
-      margin-bottom: .6rem;
+      margin-bottom: .5rem;
     }
     .section-label .num {
-      font-family: 'Open Sans', sans-serif;
-      font-size: .68rem;
+      font-size: .67rem;
       font-weight: 800;
       background: var(--blue);
       color: #fff;
@@ -225,1370 +269,1077 @@
     }
     h2 {
       font-family: 'Roboto Condensed', sans-serif;
-      font-size: 1.6rem;
+      font-size: 1.55rem;
       font-weight: 800;
       letter-spacing: -.01em;
-      margin-bottom: .45rem;
       color: var(--text-primary);
+      margin-bottom: .35rem;
     }
     .section-intro {
+      font-size: .88rem;
       color: var(--text-secondary);
-      font-size: .92rem;
-      max-width: 600px;
-      margin-bottom: 2.25rem;
+      line-height: 1.6;
     }
 
-    /* ─── CARDS ─── */
+    /* ═══════════════════════════════════════
+       SLIDE 1 — TITLE
+    ═══════════════════════════════════════ */
+    .slide-title-bg {
+      background: linear-gradient(125deg, #1a3a6e 0%, #276ef1 40%, #4a3fd6 70%, #6121f5 100%);
+      color: #fff;
+    }
+    .slide-title-bg .slide-inner { justify-content: center; }
+    .title-eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: .5rem;
+      font-size: .7rem;
+      font-weight: 700;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,.8);
+      background: rgba(255,255,255,.12);
+      border: 1px solid rgba(255,255,255,.2);
+      padding: .3rem .8rem;
+      border-radius: var(--radius);
+      margin-bottom: 1.25rem;
+    }
+    .title-eyebrow::before { content: '●'; font-size: .4rem; color: rgba(255,255,255,.6); }
+    h1 {
+      font-family: 'Roboto Condensed', sans-serif;
+      font-size: clamp(1.9rem, 4vw, 2.9rem);
+      font-weight: 800;
+      line-height: 1.1;
+      color: #fff;
+      margin-bottom: 1rem;
+      max-width: 820px;
+    }
+    h1 em {
+      font-style: normal;
+      color: rgba(255,255,255,.75);
+    }
+    .title-sub {
+      font-size: .95rem;
+      color: rgba(255,255,255,.72);
+      max-width: 580px;
+      line-height: 1.65;
+      margin-bottom: 2rem;
+    }
+    .hero-stats {
+      display: flex;
+      flex-wrap: wrap;
+      gap: .6rem;
+    }
+    .stat-pill {
+      display: flex;
+      align-items: center;
+      gap: .5rem;
+      padding: .45rem .9rem;
+      background: rgba(255,255,255,.12);
+      border: 1px solid rgba(255,255,255,.2);
+      border-radius: var(--radius);
+      font-size: .8rem;
+      font-weight: 600;
+      color: rgba(255,255,255,.9);
+    }
+    .stat-pill strong { color: #fff; }
+
+    /* ═══════════════════════════════════════
+       CARDS / SURFACES
+    ═══════════════════════════════════════ */
     .card {
       background: var(--surface);
       border: 1px solid var(--border);
       border-radius: var(--radius-lg);
-      padding: 1.75rem;
+      padding: 1.5rem;
       box-shadow: var(--shadow);
     }
-    .card-grid { display: grid; gap: 1.25rem; }
-    .card-grid-2 { grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); }
-    .card-grid-3 { grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); }
-
-    /* ─── CONTEXT ─── */
-    .context-layout {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 1.5rem;
+    .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 1.25rem; }
+    .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; }
+    .grid-4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1rem; }
+    @media (max-width: 680px) {
+      .grid-2, .grid-3, .grid-4 { grid-template-columns: 1fr; }
     }
-    @media (max-width: 700px) { .context-layout { grid-template-columns: 1fr; } }
 
+    /* ═══════════════════════════════════════
+       SLIDE 2 — CONTEXTE
+    ═══════════════════════════════════════ */
     .context-card {
       background: var(--surface);
       border: 1px solid var(--border);
       border-radius: var(--radius-lg);
-      padding: 1.75rem;
+      padding: 1.4rem;
       box-shadow: var(--shadow);
     }
     .context-card h3 {
-      font-size: .85rem;
+      font-size: .75rem;
       font-weight: 700;
-      letter-spacing: .05em;
+      letter-spacing: .07em;
       text-transform: uppercase;
       color: var(--text-muted);
-      margin-bottom: 1rem;
+      margin-bottom: .85rem;
     }
-    .status-today {
-      display: flex;
-      flex-direction: column;
-      gap: .75rem;
-    }
-    .status-item {
-      display: flex;
-      align-items: flex-start;
-      gap: .75rem;
-      font-size: .9rem;
-    }
+    .status-list { display: flex; flex-direction: column; gap: .6rem; }
+    .status-item { display: flex; align-items: flex-start; gap: .6rem; font-size: .86rem; }
     .status-icon {
-      width: 28px; height: 28px;
-      border-radius: 8px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: .9rem;
-      flex-shrink: 0;
+      width: 26px; height: 26px;
+      border-radius: var(--radius);
+      display: flex; align-items: center; justify-content: center;
+      font-size: .8rem; flex-shrink: 0;
     }
-    .bg-blue { background: var(--blue-light); }
-    .bg-amber { background: var(--amber-light); }
     .bg-green { background: var(--green-light); }
-    .bg-purple { background: var(--purple-light); }
-    .bg-red { background: var(--red-light); }
-
-    .hypothesis-box {
-      margin-top: 1.25rem;
-      padding: 1rem 1.2rem;
+    .bg-blue  { background: var(--blue-light); }
+    .bg-amber { background: var(--amber-light); }
+    .bg-red   { background: var(--red-light); }
+    .hyp-box {
+      margin-top: 1rem;
+      padding: .85rem 1rem;
       background: var(--blue-light);
       border-left: 3px solid var(--blue);
       border-radius: var(--radius);
     }
-    .hypothesis-box .label {
-      font-size: .72rem;
+    .hyp-box .lbl {
+      font-size: .66rem;
       font-weight: 700;
       letter-spacing: .08em;
       text-transform: uppercase;
       color: var(--blue);
-      margin-bottom: .4rem;
+      margin-bottom: .3rem;
     }
-    .hypothesis-box p {
-      font-size: .92rem;
-      font-weight: 500;
-      color: var(--text-primary);
-      line-height: 1.5;
-    }
+    .hyp-box p { font-size: .86rem; font-weight: 500; color: var(--text-primary); line-height: 1.5; }
 
-    /* ─── OBJECTIVES ─── */
+    /* ═══════════════════════════════════════
+       SLIDE 3 — OBJECTIFS
+    ═══════════════════════════════════════ */
     .obj-card {
       border-radius: var(--radius-lg);
-      padding: 2rem;
+      padding: 1.75rem;
       box-shadow: var(--shadow);
-      border: 1px solid transparent;
     }
-    .obj-card.business {
-      background: linear-gradient(135deg, #eef3fe 0%, #dbe8fd 100%);
-      border-color: var(--blue-mid);
-    }
-    .obj-card.research {
-      background: linear-gradient(135deg, #f0ebfe 0%, #e4d9fd 100%);
-      border-color: #c4a8fc;
-    }
-    .obj-icon {
-      font-size: 2rem;
-      margin-bottom: 1rem;
-    }
-    .obj-card h3 {
-      font-size: 1.15rem;
-      font-weight: 700;
-      margin-bottom: .6rem;
-    }
-    .obj-card p { font-size: .92rem; color: var(--text-secondary); line-height: 1.6; }
-    .obj-card .obj-tag {
+    .obj-card.business { background: linear-gradient(135deg, #eef3fe, #dbe8fd); border: 1px solid var(--blue-mid); }
+    .obj-card.research { background: linear-gradient(135deg, #f0ebfe, #e4d9fd); border: 1px solid #c4a8fc; }
+    .obj-icon { font-size: 2rem; margin-bottom: .75rem; }
+    .obj-tag {
       display: inline-block;
-      margin-bottom: .75rem;
-      font-size: .7rem;
-      font-weight: 700;
-      letter-spacing: .08em;
-      text-transform: uppercase;
-      padding: .2rem .6rem;
-      border-radius: 4px;
+      font-size: .67rem; font-weight: 700;
+      letter-spacing: .08em; text-transform: uppercase;
+      padding: .2rem .55rem; border-radius: var(--radius);
+      margin-bottom: .6rem;
     }
     .business .obj-tag { background: var(--blue); color: #fff; }
     .research .obj-tag { background: var(--purple); color: #fff; }
+    .obj-card h3 { font-size: 1.05rem; font-weight: 700; margin-bottom: .5rem; }
+    .obj-card p { font-size: .87rem; color: var(--text-secondary); line-height: 1.6; }
 
-    /* ─── FORMAT COMPARISON ─── */
-    .format-compare {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 1.5rem;
-    }
-    @media (max-width: 680px) { .format-compare { grid-template-columns: 1fr; } }
-
+    /* ═══════════════════════════════════════
+       SLIDE 4 — FORMAT COMPARISON
+    ═══════════════════════════════════════ */
     .format-card {
-      border-radius: var(--radius-lg);
-      padding: 1.75rem;
-      border: 2px solid var(--border);
       background: var(--surface);
+      border: 2px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 1.5rem;
       box-shadow: var(--shadow);
       position: relative;
     }
-    .format-card.current { border-color: var(--blue); }
-    .format-card.concept { border-color: var(--purple); }
-
+    .format-card.variant-a { border-color: var(--blue); }
+    .format-card.variant-b { border-color: var(--purple); }
     .format-badge {
-      position: absolute;
-      top: -12px; left: 1.5rem;
-      font-size: .7rem;
-      font-weight: 700;
-      letter-spacing: .08em;
-      text-transform: uppercase;
-      padding: .25rem .7rem;
-      border-radius: 20px;
+      position: absolute; top: -11px; left: 1.25rem;
+      font-size: .67rem; font-weight: 700;
+      letter-spacing: .07em; text-transform: uppercase;
+      padding: .22rem .65rem; border-radius: 20px;
     }
-    .format-card.current .format-badge { background: var(--blue); color: #fff; }
-    .format-card.concept .format-badge { background: var(--purple); color: #fff; }
-
-    .format-letter {
-      font-size: 2.5rem;
-      font-weight: 800;
-      margin-bottom: .25rem;
-      line-height: 1;
-    }
-    .format-card.current .format-letter { color: var(--blue); }
-    .format-card.concept .format-letter { color: var(--purple); }
-
-    .format-name {
-      font-size: 1.1rem;
-      font-weight: 700;
-      margin-bottom: 1rem;
-    }
+    .variant-a .format-badge { background: var(--blue); color: #fff; }
+    .variant-b .format-badge { background: var(--purple); color: #fff; }
+    .format-letter { font-size: 2.2rem; font-weight: 800; line-height: 1; margin-bottom: .2rem; }
+    .variant-a .format-letter { color: var(--blue); }
+    .variant-b .format-letter { color: var(--purple); }
+    .format-name { font-size: 1rem; font-weight: 700; margin-bottom: .85rem; }
     .format-mockup {
-      background: var(--surface-2);
-      border: 1px solid var(--border);
-      border-radius: 10px;
-      padding: 1rem;
-      margin-bottom: 1rem;
-      min-height: 100px;
-      display: flex;
-      flex-direction: column;
-      gap: .4rem;
-    }
-    .mock-label { font-size: .65rem; font-weight: 600; color: var(--text-muted); letter-spacing: .06em; text-transform: uppercase; margin-bottom: .3rem; }
-    .mock-carousel { display: flex; gap: .4rem; }
-    .mock-card { width: 55px; height: 65px; border-radius: 6px; background: var(--border); flex-shrink: 0; }
-    .mock-list-item { height: 22px; border-radius: 5px; background: var(--border); }
-    .mock-list-item:nth-child(2) { width: 80%; }
-    .mock-list-item:nth-child(3) { width: 65%; }
-
-    /* ─── MOCK PRODUCT GRID — style Raja.fr ─── */
-    .mock-raja-bg {
       background: #f2f4f9;
-      border-radius: 6px;
-      padding: .5rem;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: .75rem;
+      margin-bottom: .85rem;
     }
-    .mock-grid {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: .3rem;
+    .mock-label {
+      font-size: .6rem; font-weight: 700;
+      color: var(--text-muted); letter-spacing: .07em;
+      text-transform: uppercase; margin-bottom: .4rem;
     }
-    .mock-grid-card {
+    .mock-carousel { display: flex; gap: .35rem; overflow: hidden; }
+    .mock-card-item {
+      flex-shrink: 0;
+      width: 68px;
       background: #fff;
       border: 1px solid #e0e3ea;
       border-radius: 3px;
-      padding: .45rem .4rem .35rem;
-      display: flex;
-      flex-direction: column;
-      gap: 0;
+      padding: .3rem;
+      display: flex; flex-direction: column; gap: .18rem;
     }
-    .mock-grid-img {
-      width: 100%;
-      aspect-ratio: 1;
-      background: #f7f8fb;
-      border: 1px solid #eceef4;
+    .mock-card-item.faded { opacity: .3; }
+    .mci-img {
+      width: 100%; aspect-ratio: 1;
+      background: #f7f8fb; border: 1px solid #eceef4;
       border-radius: 2px;
-      margin-bottom: .3rem;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      position: relative;
-      overflow: hidden;
+      display: flex; align-items: center; justify-content: center;
     }
-    .mock-grid-img::after {
-      content: '';
-      position: absolute;
-      width: 50%; height: 55%;
-      background: #d8dce8;
-      border-radius: 2px;
+    .mci-img::after { content: ''; width: 52%; height: 52%; background: #d8dce8; border-radius: 2px; }
+    .mci-name { height: 4px; border-radius: 1px; background: #222831; opacity: .2; width: 88%; }
+    .mci-name2 { height: 3px; border-radius: 1px; background: #222831; opacity: .13; width: 62%; }
+    .mci-price { height: 5px; border-radius: 1px; background: #276ef1; width: 55%; margin-top: .1rem; }
+    .mci-btn { height: 9px; border-radius: 2px; background: linear-gradient(90deg,#276ef1,#6121f5); opacity: .7; margin-top: .1rem; }
+    /* Grid mockup */
+    .mock-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: .28rem; }
+    .mock-grid-card {
+      background: #fff; border: 1px solid #e0e3ea;
+      border-radius: 3px; padding: .35rem .3rem;
+      display: flex; flex-direction: column; gap: 0;
     }
-    .mock-grid-name {
-      height: 5px; border-radius: 1px;
-      background: #222831; opacity: .25;
-      width: 92%; margin-bottom: .2rem;
+    .mg-img {
+      width: 100%; aspect-ratio: 1;
+      background: #f7f8fb; border: 1px solid #eceef4; border-radius: 2px;
+      display: flex; align-items: center; justify-content: center;
+      margin-bottom: .25rem;
     }
-    .mock-grid-name2 {
-      height: 4px; border-radius: 1px;
-      background: #222831; opacity: .15;
-      width: 68%; margin-bottom: .3rem;
-    }
-    .mock-grid-ref {
-      height: 3px; border-radius: 1px;
-      background: #656f84; opacity: .35;
-      width: 55%; margin-bottom: .35rem;
-    }
-    .mock-grid-label {
-      height: 3px; border-radius: 1px;
-      background: #656f84; opacity: .25;
-      width: 45%; margin-bottom: .1rem;
-    }
-    .mock-grid-price {
-      height: 6px; border-radius: 1px;
-      background: #276ef1;
-      width: 60%; margin-bottom: .3rem;
-    }
-    .mock-grid-btn {
-      height: 11px;
-      border-radius: 2px;
-      background: linear-gradient(90deg, #276ef1, #6121f5);
-      width: 100%;
-      opacity: .75;
-    }
-
-    .format-props { list-style: none; display: flex; flex-direction: column; gap: .5rem; }
+    .mg-img::after { content: ''; width: 52%; height: 52%; background: #d8dce8; border-radius: 2px; }
+    .mg-n  { height: 4px; border-radius: 1px; background: #222831; opacity: .2; width: 90%; margin-bottom: .18rem; }
+    .mg-n2 { height: 3px; border-radius: 1px; background: #222831; opacity: .13; width: 65%; margin-bottom: .18rem; }
+    .mg-r  { height: 3px; border-radius: 1px; background: #656f84; opacity: .3; width: 50%; margin-bottom: .22rem; }
+    .mg-p  { height: 5px; border-radius: 1px; background: #276ef1; width: 58%; margin-bottom: .22rem; }
+    .mg-b  { height: 10px; border-radius: 2px; background: linear-gradient(90deg,#276ef1,#6121f5); opacity: .7; }
+    .format-props { list-style: none; display: flex; flex-direction: column; gap: .45rem; }
     .format-props li {
-      display: flex;
-      align-items: flex-start;
-      gap: .6rem;
-      font-size: .87rem;
-      color: var(--text-secondary);
+      display: flex; align-items: flex-start; gap: .5rem;
+      font-size: .83rem; color: var(--text-secondary);
     }
     .format-props li::before { content: '→'; font-weight: 700; color: var(--text-muted); flex-shrink: 0; }
 
-    /* ─── HYPOTHESES ─── */
-    .hyp-cards { display: flex; flex-direction: column; gap: 1rem; }
+    /* ═══════════════════════════════════════
+       SLIDE 5 — HYPOTHESES
+    ═══════════════════════════════════════ */
+    .hyp-cards { display: flex; flex-direction: column; gap: .85rem; }
     .hyp-card {
       background: var(--surface);
       border: 1px solid var(--border);
-      border-radius: var(--radius);
-      padding: 1.4rem 1.6rem;
+      border-radius: var(--radius-lg);
+      padding: 1.2rem 1.4rem;
       box-shadow: var(--shadow);
-      display: flex;
-      gap: 1.25rem;
-      align-items: flex-start;
+      display: flex; gap: 1rem; align-items: flex-start;
     }
     .hyp-id {
       font-family: 'Roboto Condensed', sans-serif;
-      font-size: .8rem;
-      font-weight: 800;
-      color: #fff;
-      background: var(--blue);
-      padding: .3rem .7rem;
-      border-radius: var(--radius);
-      flex-shrink: 0;
-      letter-spacing: .04em;
+      font-size: .8rem; font-weight: 800;
+      color: #fff; padding: .3rem .65rem;
+      border-radius: var(--radius); flex-shrink: 0;
     }
+    .hyp-card:nth-child(1) .hyp-id { background: var(--blue); }
     .hyp-card:nth-child(2) .hyp-id { background: var(--purple); }
     .hyp-card:nth-child(3) .hyp-id { background: var(--amber); }
-    .hyp-text { font-size: .95rem; font-weight: 500; color: var(--text-primary); line-height: 1.5; }
-    .hyp-sub { font-size: .83rem; color: var(--text-secondary); margin-top: .3rem; }
+    .hyp-text { font-size: .92rem; font-weight: 600; color: var(--text-primary); line-height: 1.5; }
+    .hyp-sub  { font-size: .8rem; color: var(--text-secondary); margin-top: .3rem; }
 
-    /* ─── TARGET ─── */
+    /* ═══════════════════════════════════════
+       SLIDE 6 — CIBLE
+    ═══════════════════════════════════════ */
     .target-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      grid-template-columns: repeat(2, 1fr);
       gap: 1rem;
     }
     .target-item {
       background: var(--surface);
       border: 1px solid var(--border);
-      border-radius: var(--radius);
-      padding: 1.25rem;
+      border-radius: var(--radius-lg);
+      padding: 1.5rem 1.25rem;
       box-shadow: var(--shadow);
-      text-align: center;
+      display: flex; align-items: flex-start; gap: 1rem;
     }
-    .target-item .t-icon { font-size: 2rem; margin-bottom: .6rem; }
-    .target-item p { font-size: .87rem; font-weight: 500; color: var(--text-secondary); line-height: 1.5; }
+    .t-icon { font-size: 1.75rem; flex-shrink: 0; }
+    .target-item p { font-size: .88rem; font-weight: 500; color: var(--text-secondary); line-height: 1.55; }
 
-    /* ─── METHODOLOGY ─── */
+    /* ═══════════════════════════════════════
+       SLIDE 7 — MÉTHODOLOGIE
+    ═══════════════════════════════════════ */
     .method-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-      gap: 1rem;
+      grid-template-columns: repeat(4, 1fr);
+      gap: .85rem;
     }
+    @media (max-width: 740px) { .method-grid { grid-template-columns: repeat(2, 1fr); } }
     .method-item {
       background: var(--surface);
       border: 1px solid var(--border);
-      border-radius: var(--radius);
-      padding: 1.25rem;
+      border-radius: var(--radius-lg);
+      padding: 1.1rem;
       box-shadow: var(--shadow);
     }
     .method-key {
-      font-size: .72rem;
-      font-weight: 700;
-      letter-spacing: .07em;
-      text-transform: uppercase;
-      color: var(--text-muted);
-      margin-bottom: .35rem;
+      font-size: .67rem; font-weight: 700;
+      letter-spacing: .08em; text-transform: uppercase;
+      color: var(--text-muted); margin-bottom: .3rem;
     }
-    .method-val {
-      font-size: .95rem;
-      font-weight: 600;
-      color: var(--text-primary);
-    }
+    .method-val { font-size: .9rem; font-weight: 600; color: var(--text-primary); line-height: 1.4; }
     .method-val.accent { color: var(--blue); }
+    .method-sub { font-size: .75rem; color: var(--text-muted); font-weight: 400; }
 
-    /* ─── MEASURES ─── */
-    .measures-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 1.5rem;
-    }
+    /* ═══════════════════════════════════════
+       SLIDE 8 — MESURES
+    ═══════════════════════════════════════ */
+    .measures-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.25rem; }
     @media (max-width: 680px) { .measures-grid { grid-template-columns: 1fr; } }
-
     .measures-block {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: var(--radius-lg);
-      padding: 1.75rem;
-      box-shadow: var(--shadow);
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: var(--radius-lg); padding: 1.5rem; box-shadow: var(--shadow);
     }
     .measures-block h3 {
-      font-size: .85rem;
-      font-weight: 700;
-      letter-spacing: .06em;
-      text-transform: uppercase;
-      margin-bottom: 1.1rem;
-      display: flex;
-      align-items: center;
-      gap: .5rem;
+      font-size: .78rem; font-weight: 700;
+      letter-spacing: .07em; text-transform: uppercase;
+      margin-bottom: 1rem; display: flex; align-items: center; gap: .45rem;
     }
-    .measures-block h3.quant { color: var(--blue); }
-    .measures-block h3.qual { color: var(--purple); }
-
-    .measure-list { list-style: none; display: flex; flex-direction: column; gap: .6rem; }
+    .quant h3 { color: var(--blue); }
+    .qual  h3 { color: var(--purple); }
+    .measure-list { list-style: none; display: flex; flex-direction: column; gap: .55rem; }
     .measure-list li {
-      display: flex;
-      align-items: flex-start;
-      gap: .75rem;
-      font-size: .88rem;
-      color: var(--text-secondary);
-      padding-bottom: .6rem;
-      border-bottom: 1px solid var(--surface-2);
+      display: flex; align-items: flex-start; gap: .7rem;
+      font-size: .85rem; color: var(--text-secondary);
+      padding-bottom: .55rem; border-bottom: 1px solid #f0f2f8;
     }
     .measure-list li:last-child { border-bottom: none; padding-bottom: 0; }
-    .measure-dot {
-      width: 6px; height: 6px;
-      border-radius: 50%;
-      margin-top: .55em;
-      flex-shrink: 0;
+    .mdot {
+      width: 6px; height: 6px; border-radius: 50%;
+      margin-top: .5em; flex-shrink: 0;
     }
-    .quant .measure-dot { background: var(--blue); }
-    .qual .measure-dot { background: var(--purple); }
+    .quant .mdot { background: var(--blue); }
+    .qual  .mdot { background: var(--purple); }
 
-    /* ─── KPIs ─── */
+    /* ═══════════════════════════════════════
+       SLIDE 9 — KPIs
+    ═══════════════════════════════════════ */
     .kpi-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-      gap: 1rem;
+      grid-template-columns: repeat(5, 1fr);
+      gap: .85rem;
     }
+    @media (max-width: 800px) { .kpi-grid { grid-template-columns: repeat(2, 1fr); } }
     .kpi-card {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-      padding: 1.4rem;
-      box-shadow: var(--shadow);
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: var(--radius-lg); padding: 1.25rem; box-shadow: var(--shadow);
     }
-    .kpi-card .kpi-label {
-      font-size: .78rem;
-      font-weight: 600;
-      color: var(--text-muted);
-      margin-bottom: .5rem;
-    }
-    .kpi-card .kpi-name {
-      font-size: .92rem;
-      font-weight: 600;
-      color: var(--text-primary);
-      line-height: 1.4;
-    }
-    .kpi-bar {
-      margin-top: .75rem;
-      height: 4px;
-      border-radius: 2px;
-      background: var(--surface-2);
-      overflow: hidden;
-    }
-    .kpi-bar-fill {
-      height: 100%;
-      border-radius: 2px;
-    }
-    .kpi-card:nth-child(1) .kpi-bar-fill { width: 85%; background: var(--blue); }
-    .kpi-card:nth-child(2) .kpi-bar-fill { width: 70%; background: var(--purple); }
-    .kpi-card:nth-child(3) .kpi-bar-fill { width: 60%; background: var(--green); }
-    .kpi-card:nth-child(4) .kpi-bar-fill { width: 45%; background: var(--amber); }
-    .kpi-card:nth-child(5) .kpi-bar-fill { width: 90%; background: var(--blue); }
+    .kpi-lbl { font-size: .7rem; font-weight: 700; color: var(--text-muted); margin-bottom: .45rem; }
+    .kpi-name { font-size: .87rem; font-weight: 600; color: var(--text-primary); line-height: 1.4; }
+    .kpi-bar { margin-top: .75rem; height: 4px; border-radius: 2px; background: #f0f2f8; overflow: hidden; }
+    .kpi-fill { height: 100%; border-radius: 2px; background: linear-gradient(90deg, var(--blue), var(--purple)); }
 
-    /* ─── SCOPE ─── */
-    .scope-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 1.5rem;
-    }
+    /* ═══════════════════════════════════════
+       SLIDE 10 — PÉRIMÈTRE
+    ═══════════════════════════════════════ */
+    .scope-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.25rem; }
     @media (max-width: 680px) { .scope-grid { grid-template-columns: 1fr; } }
-
-    .scope-block {
-      border-radius: var(--radius-lg);
-      padding: 1.75rem;
-      box-shadow: var(--shadow);
-    }
+    .scope-block { border-radius: var(--radius-lg); padding: 1.5rem; box-shadow: var(--shadow); }
     .scope-block.will { background: var(--green-light); border: 1px solid #a3e4b8; border-left: 3px solid var(--green); }
-    .scope-block.wont { background: var(--red-light); border: 1px solid #f5b8bc; border-left: 3px solid var(--red); }
-
+    .scope-block.wont { background: var(--red-light);   border: 1px solid #f5b8bc; border-left: 3px solid var(--red); }
     .scope-block h3 {
-      font-size: .85rem;
-      font-weight: 700;
-      letter-spacing: .06em;
-      text-transform: uppercase;
-      margin-bottom: 1rem;
+      font-size: .78rem; font-weight: 700; letter-spacing: .07em;
+      text-transform: uppercase; margin-bottom: .9rem;
     }
     .scope-block.will h3 { color: var(--green); }
     .scope-block.wont h3 { color: var(--red); }
+    .scope-list { list-style: none; display: flex; flex-direction: column; gap: .6rem; }
+    .scope-list li { display: flex; align-items: flex-start; gap: .65rem; font-size: .85rem; color: var(--text-secondary); line-height: 1.5; }
 
-    .scope-list { list-style: none; display: flex; flex-direction: column; gap: .65rem; }
-    .scope-list li {
-      display: flex;
-      align-items: flex-start;
-      gap: .75rem;
-      font-size: .88rem;
-      color: var(--text-secondary);
-      line-height: 1.5;
-    }
-    .scope-check { font-size: 1rem; flex-shrink: 0; }
-
-    /* ─── RATIONALE ─── */
+    /* ═══════════════════════════════════════
+       SLIDE 11 — RATIONALE
+    ═══════════════════════════════════════ */
     .rationale-card {
       background: linear-gradient(110deg, #276ef1 0%, #4a3fd6 55%, #6121f5 100%);
       color: #fff;
       border-radius: var(--radius-lg);
-      padding: 2.5rem;
+      padding: 2.25rem;
       box-shadow: 0 8px 32px rgba(39,110,241,.3);
-      position: relative;
-      overflow: hidden;
+      position: relative; overflow: hidden;
     }
-    .rationale-card::before {
+    .rationale-card::after {
       content: '';
-      position: absolute;
-      bottom: -80px; right: -80px;
-      width: 300px; height: 300px;
-      border-radius: 50%;
-      background: rgba(255,255,255,.06);
+      position: absolute; bottom: -80px; right: -80px;
+      width: 280px; height: 280px;
+      border-radius: 50%; background: rgba(255,255,255,.06);
       pointer-events: none;
     }
-    .rationale-card h3 { font-family: 'Roboto Condensed', sans-serif; font-size: 1.2rem; font-weight: 800; margin-bottom: 1rem; letter-spacing: -.01em; }
-    .rationale-card p { color: rgba(255,255,255,.78); line-height: 1.7; font-size: .9rem; margin-bottom: .75rem; }
-    .rationale-list { list-style: none; display: grid; grid-template-columns: 1fr 1fr; gap: .65rem; margin-top: 1.5rem; }
+    .rationale-card h3 {
+      font-family: 'Roboto Condensed', sans-serif;
+      font-size: 1.2rem; font-weight: 800;
+      margin-bottom: .85rem; max-width: 720px;
+    }
+    .rationale-card p { color: rgba(255,255,255,.75); font-size: .88rem; line-height: 1.7; margin-bottom: .75rem; }
+    .rationale-list { list-style: none; display: grid; grid-template-columns: 1fr 1fr; gap: .6rem; margin-top: 1.25rem; }
     @media (max-width: 680px) { .rationale-list { grid-template-columns: 1fr; } }
     .rationale-list li {
-      display: flex;
-      align-items: flex-start;
-      gap: .6rem;
-      font-size: .84rem;
-      font-weight: 600;
-      color: rgba(255,255,255,.9);
-      background: rgba(255,255,255,.1);
-      border: 1px solid rgba(255,255,255,.15);
-      border-radius: var(--radius);
-      padding: .7rem 1rem;
+      display: flex; align-items: flex-start; gap: .55rem;
+      font-size: .83rem; font-weight: 600; color: rgba(255,255,255,.9);
+      background: rgba(255,255,255,.1); border: 1px solid rgba(255,255,255,.15);
+      border-radius: var(--radius); padding: .65rem .9rem;
     }
-    .rationale-list li .r-icon { font-size: .95rem; flex-shrink: 0; }
 
-    /* ─── RISKS ─── */
-    .risk-grid { display: flex; flex-direction: column; gap: 1rem; }
+    /* ═══════════════════════════════════════
+       SLIDE 12 — EXCLUSION + ÉCHANTILLON
+    ═══════════════════════════════════════ */
+    .exclusion-card {
+      background: #f0f2f8; border: 1px solid var(--border);
+      border-radius: var(--radius-lg); padding: 1.4rem;
+      display: flex; gap: .9rem; align-items: flex-start;
+    }
+    .exc-icon { font-size: 1.6rem; flex-shrink: 0; }
+    .exclusion-card h4 { font-size: .9rem; font-weight: 700; margin-bottom: .35rem; }
+    .exclusion-card p { font-size: .84rem; color: var(--text-secondary); line-height: 1.55; }
+    .sample-card {
+      background: var(--surface); border: 2px solid var(--blue);
+      border-radius: var(--radius-lg); padding: 1.75rem;
+      box-shadow: var(--shadow); display: flex; align-items: center; gap: 1.75rem;
+    }
+    .sample-num { font-family: 'Roboto Condensed', sans-serif; font-size: 3.5rem; font-weight: 800; color: var(--blue); line-height: 1; flex-shrink: 0; }
+    .sample-num span { font-size: 2rem; color: var(--text-muted); }
+    .sample-text h3 { font-size: 1rem; font-weight: 700; margin-bottom: .35rem; }
+    .sample-text p { font-size: .84rem; color: var(--text-secondary); line-height: 1.6; }
+
+    /* ═══════════════════════════════════════
+       SLIDE 13 — RISQUES
+    ═══════════════════════════════════════ */
+    .risk-table { display: flex; flex-direction: column; gap: .75rem; }
     .risk-row {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-      padding: 1.25rem 1.5rem;
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 1rem;
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: var(--radius-lg); padding: 1.1rem 1.35rem;
+      display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;
       box-shadow: var(--shadow);
     }
     @media (max-width: 680px) { .risk-row { grid-template-columns: 1fr; } }
-    .risk-item h4 { font-size: .75rem; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; margin-bottom: .35rem; }
-    .risk-item.danger h4 { color: var(--red); }
-    .risk-item.mitigation h4 { color: var(--green); }
-    .risk-item p { font-size: .87rem; color: var(--text-secondary); line-height: 1.5; }
+    .risk-cell h4 { font-size: .7rem; font-weight: 700; letter-spacing: .07em; text-transform: uppercase; margin-bottom: .3rem; }
+    .risk-cell.danger h4     { color: var(--red); }
+    .risk-cell.mitigation h4 { color: var(--green); }
+    .risk-cell p { font-size: .84rem; color: var(--text-secondary); line-height: 1.5; }
 
-    /* ─── SAMPLE ─── */
-    .sample-card {
-      background: var(--surface);
-      border: 2px solid var(--blue);
-      border-radius: var(--radius-lg);
-      padding: 2rem;
-      box-shadow: var(--shadow);
-      display: flex;
-      align-items: center;
-      gap: 2rem;
-    }
-    @media (max-width: 580px) { .sample-card { flex-direction: column; text-align: center; } }
-    .sample-num {
-      font-size: 4rem;
-      font-weight: 800;
-      color: var(--blue);
-      line-height: 1;
-      flex-shrink: 0;
-    }
-    .sample-num span { font-size: 2rem; color: var(--text-muted); }
-    .sample-text h3 { font-size: 1.1rem; font-weight: 700; margin-bottom: .4rem; }
-    .sample-text p { font-size: .9rem; color: var(--text-secondary); }
-
-    /* ─── ROADMAP ─── */
-    .roadmap {
-      display: flex;
-      gap: 0;
-      position: relative;
-    }
-    .roadmap::before {
-      content: '';
-      position: absolute;
-      top: 24px; left: 24px; right: 24px;
-      height: 2px;
-      background: linear-gradient(to right, var(--blue), var(--purple), var(--green));
-    }
-    @media (max-width: 680px) {
-      .roadmap { flex-direction: column; }
-      .roadmap::before { top: 24px; bottom: 24px; left: 24px; right: auto; width: 2px; height: auto; }
-    }
-    .roadmap-step {
-      flex: 1;
-      padding-top: 3.5rem;
-      padding-right: 1rem;
-      position: relative;
-    }
-    .roadmap-step:last-child { padding-right: 0; }
-    @media (max-width: 680px) {
-      .roadmap-step { padding-top: 0; padding-left: 3.5rem; padding-right: 0; padding-bottom: 1.5rem; }
-    }
-    .roadmap-dot {
-      position: absolute;
-      top: 12px; left: 0;
-      width: 24px; height: 24px;
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: .7rem;
-      font-weight: 700;
-      color: #fff;
-      z-index: 1;
-    }
-    @media (max-width: 680px) { .roadmap-dot { top: 0; left: 0; } }
-    .roadmap-step:nth-child(1) .roadmap-dot { background: var(--blue); }
-    .roadmap-step:nth-child(2) .roadmap-dot { background: #6366f1; }
-    .roadmap-step:nth-child(3) .roadmap-dot { background: var(--purple); }
-    .roadmap-step:nth-child(4) .roadmap-dot { background: var(--green); }
-
-    .roadmap-step h4 { font-size: .9rem; font-weight: 700; margin-bottom: .35rem; }
-    .roadmap-step p { font-size: .82rem; color: var(--text-secondary); line-height: 1.5; }
-    .roadmap-step .step-tag {
-      display: inline-block;
-      font-size: .68rem;
-      font-weight: 600;
-      letter-spacing: .05em;
-      text-transform: uppercase;
-      padding: .15rem .5rem;
-      border-radius: 4px;
-      background: var(--surface-2);
-      color: var(--text-muted);
-      margin-bottom: .5rem;
-    }
-
-    /* ─── IF/THEN ─── */
-    .ifthen-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 1.5rem;
-    }
-    @media (max-width: 680px) { .ifthen-grid { grid-template-columns: 1fr; } }
-
-    .ifthen-card {
-      border-radius: var(--radius-lg);
-      padding: 1.75rem;
-      box-shadow: var(--shadow);
-      border: 1px solid transparent;
-    }
-    .ifthen-card.yes { background: var(--green-light); border-color: #a3e4b8; border-left: 3px solid var(--green); }
-    .ifthen-card.no { background: var(--amber-light); border-color: #f5d08a; border-left: 3px solid var(--amber); }
-    .ifthen-card h3 {
-      font-size: .85rem;
-      font-weight: 700;
-      letter-spacing: .06em;
-      text-transform: uppercase;
-      margin-bottom: 1rem;
-    }
-    .ifthen-card.yes h3 { color: var(--green); }
-    .ifthen-card.no h3 { color: var(--amber); }
-
-    .ifthen-condition {
-      font-size: .92rem;
-      font-weight: 600;
-      color: var(--text-primary);
-      padding: .75rem 1rem;
-      border-radius: 8px;
-      margin-bottom: .75rem;
-    }
-    .ifthen-card.yes .ifthen-condition { background: rgba(5,150,105,.08); }
-    .ifthen-card.no .ifthen-condition { background: rgba(217,119,6,.08); }
-
-    .ifthen-actions { list-style: none; display: flex; flex-direction: column; gap: .5rem; }
-    .ifthen-actions li {
-      font-size: .87rem;
-      color: var(--text-secondary);
-      display: flex;
-      align-items: flex-start;
-      gap: .6rem;
-    }
-    .ifthen-actions li::before { content: '→'; font-weight: 700; flex-shrink: 0; }
-    .ifthen-card.yes .ifthen-actions li::before { color: var(--green); }
-    .ifthen-card.no .ifthen-actions li::before { color: var(--amber); }
-
-    /* ─── EXCLUSIONS ─── */
-    .exclusion-card {
-      background: var(--surface-2);
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-      padding: 1.5rem;
-      display: flex;
-      gap: 1rem;
-      align-items: flex-start;
-    }
-    .exclusion-icon { font-size: 1.75rem; flex-shrink: 0; }
-    .exclusion-card h4 { font-size: .92rem; font-weight: 700; margin-bottom: .35rem; }
-    .exclusion-card p { font-size: .87rem; color: var(--text-secondary); line-height: 1.5; }
-
-    /* ─── CTA / DECISION ─── */
-    .cta-section {
+    /* ═══════════════════════════════════════
+       SLIDE 14 — DÉCISION (CTA)
+    ═══════════════════════════════════════ */
+    .slide-decision {
       background: linear-gradient(110deg, #276ef1 0%, #4a3fd6 50%, #6121f5 100%);
       color: #fff;
-      border-radius: var(--radius-lg);
-      padding: 3rem;
-      box-shadow: 0 12px 40px rgba(39,110,241,.35);
+    }
+    .decision-inner {
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 2.5rem 1.5rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 100%;
       text-align: center;
-      margin: 0 0 5rem;
-      position: relative;
-      overflow: hidden;
     }
-    .cta-section::before {
-      content: '';
-      position: absolute;
-      top: -60%; right: -10%;
-      width: 500px; height: 500px;
-      border-radius: 50%;
-      background: rgba(255,255,255,.06);
-      pointer-events: none;
+    .decision-eyebrow {
+      font-size: .7rem; font-weight: 700; letter-spacing: .12em;
+      text-transform: uppercase; color: rgba(255,255,255,.7);
+      background: rgba(255,255,255,.12); border: 1px solid rgba(255,255,255,.2);
+      padding: .3rem .8rem; border-radius: var(--radius); margin-bottom: 1rem;
     }
-    .cta-section h2 {
+    .decision-inner h2 {
       font-family: 'Roboto Condensed', sans-serif;
-      font-size: 1.8rem;
-      font-weight: 800;
-      letter-spacing: -.01em;
-      margin-bottom: .75rem;
+      font-size: clamp(1.6rem, 3vw, 2.1rem);
+      font-weight: 800; color: #fff; margin-bottom: .65rem;
     }
-    .cta-section p {
-      color: rgba(255,255,255,.65);
-      max-width: 540px;
-      margin: 0 auto 2.5rem;
-      line-height: 1.6;
+    .decision-inner .sub {
+      color: rgba(255,255,255,.68); font-size: .9rem; line-height: 1.6;
+      margin-bottom: 2rem; max-width: 500px;
     }
-    .cta-items {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-      gap: 1rem;
-      margin-bottom: 2.5rem;
+    .decision-items {
+      display: flex; flex-wrap: wrap; justify-content: center;
+      gap: .75rem; margin-bottom: 2rem; width: 100%;
     }
-    .cta-item {
-      display: flex;
-      align-items: center;
-      gap: .6rem;
-      padding: .75rem 1.25rem;
-      background: rgba(255,255,255,.08);
-      border: 1px solid rgba(255,255,255,.15);
-      border-radius: 10px;
-      font-size: .88rem;
-      font-weight: 500;
-      color: rgba(255,255,255,.9);
-      backdrop-filter: blur(4px);
+    .decision-item {
+      display: flex; align-items: center; gap: .6rem;
+      padding: .7rem 1.1rem;
+      background: rgba(255,255,255,.1); border: 1px solid rgba(255,255,255,.18);
+      border-radius: var(--radius);
+      font-size: .84rem; font-weight: 600; color: rgba(255,255,255,.92);
     }
-    .cta-item .ci-check {
-      width: 20px; height: 20px;
-      border-radius: 50%;
-      background: rgba(5,150,105,.3);
-      border: 1px solid rgba(5,150,105,.5);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: .7rem;
-      flex-shrink: 0;
+    .decision-item .check {
+      width: 18px; height: 18px; border-radius: 50%;
+      background: rgba(26,122,64,.4); border: 1px solid rgba(26,122,64,.6);
+      display: flex; align-items: center; justify-content: center;
+      font-size: .65rem; flex-shrink: 0; color: #fff;
     }
-    .cta-buttons {
-      display: flex;
-      justify-content: center;
-      gap: 1rem;
-      flex-wrap: wrap;
-    }
+    .decision-btns { display: flex; gap: 1rem; flex-wrap: wrap; justify-content: center; }
     .btn-primary {
-      display: inline-flex;
-      align-items: center;
-      gap: .5rem;
-      padding: .75rem 2rem;
-      background: #fff;
-      color: var(--blue);
-      font-weight: 800;
-      font-size: .9rem;
-      border-radius: var(--radius-btn);
-      border: 2px solid #fff;
-      cursor: pointer;
-      text-decoration: none;
-      transition: background .15s, color .15s, box-shadow .15s;
-      box-shadow: 0 4px 20px rgba(0,0,0,.15);
+      display: inline-flex; align-items: center; gap: .5rem;
+      padding: .72rem 1.8rem; background: #fff; color: var(--blue);
+      font-weight: 800; font-size: .88rem;
+      border-radius: var(--radius-btn); border: 2px solid #fff;
+      cursor: pointer; text-decoration: none;
+      transition: background .15s, box-shadow .15s;
       font-family: 'Open Sans', sans-serif;
+      box-shadow: 0 4px 18px rgba(0,0,0,.15);
     }
-    .btn-primary:hover { background: var(--blue-light); color: var(--blue); box-shadow: 0 6px 24px rgba(0,0,0,.2); }
+    .btn-primary:hover { background: var(--blue-light); box-shadow: 0 6px 24px rgba(0,0,0,.2); }
     .btn-secondary {
-      display: inline-flex;
-      align-items: center;
-      gap: .5rem;
-      padding: .75rem 2rem;
-      background: transparent;
-      color: rgba(255,255,255,.9);
-      font-weight: 700;
-      font-size: .9rem;
-      border-radius: var(--radius-btn);
-      border: 2px solid rgba(255,255,255,.4);
-      cursor: pointer;
-      text-decoration: none;
+      display: inline-flex; align-items: center; gap: .5rem;
+      padding: .72rem 1.8rem; background: transparent;
+      color: rgba(255,255,255,.88); font-weight: 700; font-size: .88rem;
+      border-radius: var(--radius-btn); border: 2px solid rgba(255,255,255,.35);
+      cursor: pointer; text-decoration: none;
       transition: background .15s, border-color .15s;
       font-family: 'Open Sans', sans-serif;
     }
-    .btn-secondary:hover { background: rgba(255,255,255,.1); border-color: rgba(255,255,255,.7); }
+    .btn-secondary:hover { background: rgba(255,255,255,.1); border-color: rgba(255,255,255,.65); }
 
-    /* ─── DIVIDER ─── */
-    .divider {
-      border: none;
-      border-top: 1px solid var(--border);
-      margin: 0;
+    /* ═══════════════════════════════════════
+       KEYBOARD HINT
+    ═══════════════════════════════════════ */
+    .key-hint {
+      position: fixed;
+      bottom: calc(var(--footer-h) + .75rem);
+      right: 1rem;
+      display: flex;
+      gap: .3rem;
+      z-index: 100;
+      opacity: .5;
+      transition: opacity .2s;
     }
-
-    /* ─── FOOTER ─── */
-    footer {
-      padding: 1.5rem 2rem;
-      text-align: center;
-      font-size: .78rem;
-      font-weight: 600;
-      color: var(--text-muted);
+    .key-hint:hover { opacity: 1; }
+    .key {
       background: #fff;
-      border-top: 2px solid var(--blue);
-    }
-
-    /* ─── UTILITIES ─── */
-    .mt-1 { margin-top: .5rem; }
-    .mt-2 { margin-top: 1rem; }
-    .mt-3 { margin-top: 1.5rem; }
-
-    /* ─── RESPONSIVE NAV ─── */
-    @media (max-width: 768px) {
-      .nav-links { display: none; }
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: .15rem .45rem;
+      font-size: .68rem;
+      font-weight: 700;
+      color: var(--text-muted);
+      box-shadow: 0 2px 4px rgba(0,0,0,.06);
     }
   </style>
 </head>
 <body>
 
-<!-- NAV -->
-<nav>
-  <div class="nav-inner">
-    <a class="nav-brand" href="#">
-      <span>User Test · Reco Produit</span>
-      <span class="nav-badge">Validation</span>
-    </a>
-    <ul class="nav-links">
-      <li><a href="#contexte">Contexte</a></li>
-      <li><a href="#hypotheses">Hypothèses</a></li>
-      <li><a href="#methodo">Méthodo</a></li>
-      <li><a href="#kpis">KPIs</a></li>
-      <li><a href="#decision">Décision</a></li>
-    </ul>
-    <a href="#decision" class="nav-cta">→ Valider le test</a>
-  </div>
-</nav>
+<!-- PROGRESS BAR -->
+<div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
 
-<!-- HERO -->
-<div class="container">
-  <section class="hero">
-    <div class="hero-eyebrow">User Research · Marché Allemand B2B</div>
-    <h1>Carrousel vs. Liste :<br/>quel format pour les <em>recommandations produit</em> ?</h1>
-    <p class="hero-sub">
-      Test utilisateur non modéré pour comprendre les mécanismes perceptifs avant tout Live-A/B-Test — sécuriser l'hypothèse et réduire le risque avant déploiement.
-    </p>
-    <div class="hero-stats">
-      <div class="stat-pill"><span class="icon">🎯</span> <span><strong>n ≈ 50</strong> participants</span></div>
-      <div class="stat-pill"><span class="icon">⏱</span> <span><strong>15–20 min</strong> par session</span></div>
-      <div class="stat-pill"><span class="icon">📍</span> <span><strong>UserTesting</strong> · Non modéré</span></div>
-      <div class="stat-pill"><span class="icon">📅</span> <span><strong>≈ 2 semaines</strong> incl. analyse</span></div>
-      <div class="stat-pill"><span class="icon">🇩🇪</span> <span><strong>Acheteurs B2B</strong> allemands</span></div>
+<!-- HEADER -->
+<header class="deck-header">
+  <div class="deck-header-inner">
+    <div class="brand">
+      User Test · Reco Produit
+      <span class="brand-badge">Validation</span>
     </div>
-  </section>
-</div>
-
-<hr class="divider" />
-
-<!-- CONTEXT -->
-<div class="container" id="contexte">
-  <section>
-    <div class="section-label"><span class="num">01</span> Contexte</div>
-    <h2>Situation actuelle & opportunité</h2>
-    <p class="section-intro">Une fonctionnalité à fort potentiel revenue, mais une suspicion de friction perceptive sur le marché cible.</p>
-
-    <div class="context-layout">
-      <div class="context-card">
-        <h3>Aujourd'hui — Carrousel (Karussell-Format)</h3>
-        <div class="status-today">
-          <div class="status-item">
-            <div class="status-icon bg-green">✓</div>
-            <span>Forte contribution au revenu assisté lorsqu'il est utilisé</span>
-          </div>
-          <div class="status-item">
-            <div class="status-icon bg-blue">📊</div>
-            <span>Présent sur toutes les pages produit</span>
-          </div>
-          <div class="status-item">
-            <div class="status-icon bg-amber">⚠</div>
-            <span>Suspicion d'une perception « publicitaire » sur le marché allemand</span>
-          </div>
-        </div>
-        <div class="hypothesis-box">
-          <div class="label">Hypothèse principale</div>
-          <p>Un format Liste (Listenformat), plus structuré et plus transactionnel, pourrait réduire l'effet « bannière publicitaire » et augmenter l'intention d'usage.</p>
-        </div>
+    <div class="header-right">
+      <span class="slide-title-mini" id="slideTitleMini">Introduction</span>
+      <div class="deck-controls">
+        <button class="ctrl-btn" id="prevBtn" title="Slide précédente">←</button>
+        <span class="slide-counter" id="slideCounter">1 / 14</span>
+        <button class="ctrl-btn" id="nextBtn" title="Slide suivante">→</button>
       </div>
-
-      <div class="context-card">
-        <h3>Le problème à résoudre</h3>
-        <div class="status-today">
-          <div class="status-item">
-            <div class="status-icon bg-red">?</div>
-            <span>Le carrousel est-il réellement ignoré comme une publicité ?</span>
-          </div>
-          <div class="status-item">
-            <div class="status-icon bg-red">?</div>
-            <span>La liste changerait-elle la perception et l'intention ?</span>
-          </div>
-          <div class="status-item">
-            <div class="status-icon bg-red">?</div>
-            <span>Y a-t-il un risque de dégradation si on change de format ?</span>
-          </div>
-        </div>
-        <div class="hypothesis-box" style="background: linear-gradient(135deg, var(--amber-light), #fef9c3); border-color: #fde68a;">
-          <div class="label" style="color: var(--amber);">Enjeu business</div>
-          <p>Augmenter le taux d'utilisation des recommandations → uplift du revenue assisté.</p>
-        </div>
-      </div>
-    </div>
-  </section>
-</div>
-
-<hr class="divider" />
-
-<!-- OBJECTIVES -->
-<div class="container">
-  <section>
-    <div class="section-label"><span class="num">02</span> Objectifs</div>
-    <h2>Deux niveaux d'ambition</h2>
-    <p class="section-intro">Un test à double lecture — business et research — pour aligner toutes les parties prenantes.</p>
-
-    <div class="card-grid card-grid-2">
-      <div class="obj-card business">
-        <div class="obj-icon">📈</div>
-        <div class="obj-tag">Business Goal</div>
-        <h3>Améliorer le taux d'utilisation des recommandations</h3>
-        <p>Comprendre quel format visuel maximise l'engagement déclaré avec la zone de recommandations, en vue d'augmenter le revenue assisté sur la page produit.</p>
-      </div>
-      <div class="obj-card research">
-        <div class="obj-icon">🔬</div>
-        <div class="obj-tag">Research Goal</div>
-        <h3>Comparer perception & intention entre les deux formats</h3>
-        <p>Évaluer objectivement si le format Liste réduit la perception publicitaire et génère une intention de clic plus élevée que le Carrousel actuel.</p>
-      </div>
-    </div>
-  </section>
-</div>
-
-<hr class="divider" />
-
-<!-- FORMAT COMPARISON -->
-<div class="container">
-  <section>
-    <div class="section-label"><span class="num">03</span> Les deux formats testés</div>
-    <h2>A vs. B — Test comparatif séquentiel</h2>
-    <p class="section-intro">Prototypes statiques présentés dans un ordre randomisé. Pas d'interaction mesurée à ce stade.</p>
-
-    <div class="format-compare">
-      <div class="format-card current">
-        <div class="format-badge">🅰 Actuel</div>
-        <div class="format-letter">A</div>
-        <div class="format-name">Format Carrousel</div>
-        <div class="format-mockup mock-raja-bg">
-          <div class="mock-label" style="margin-bottom:.4rem">Simulation visuelle</div>
-          <div class="mock-carousel" style="overflow:hidden;position:relative">
-            <div class="mock-card" style="flex-shrink:0;display:flex;flex-direction:column;gap:.2rem;padding:.35rem;background:#fff;border:1px solid #e0e3ea;border-radius:3px;width:70px;height:auto"><div style="width:100%;aspect-ratio:1;background:#f7f8fb;border:1px solid #eceef4;border-radius:2px;display:flex;align-items:center;justify-content:center"><div style="width:55%;height:55%;background:#d8dce8;border-radius:2px"></div></div><div style="height:4px;border-radius:1px;background:#222831;opacity:.22;width:88%"></div><div style="height:4px;border-radius:1px;background:#222831;opacity:.13;width:62%"></div><div style="height:5px;border-radius:1px;background:#276ef1;width:55%;margin-top:.15rem"></div><div style="height:9px;border-radius:2px;background:linear-gradient(90deg,#276ef1,#6121f5);opacity:.7;margin-top:.15rem"></div></div>
-            <div class="mock-card" style="flex-shrink:0;display:flex;flex-direction:column;gap:.2rem;padding:.35rem;background:#fff;border:1px solid #e0e3ea;border-radius:3px;width:70px;height:auto"><div style="width:100%;aspect-ratio:1;background:#f7f8fb;border:1px solid #eceef4;border-radius:2px;display:flex;align-items:center;justify-content:center"><div style="width:55%;height:55%;background:#d8dce8;border-radius:2px"></div></div><div style="height:4px;border-radius:1px;background:#222831;opacity:.22;width:75%"></div><div style="height:4px;border-radius:1px;background:#222831;opacity:.13;width:50%"></div><div style="height:5px;border-radius:1px;background:#276ef1;width:55%;margin-top:.15rem"></div><div style="height:9px;border-radius:2px;background:linear-gradient(90deg,#276ef1,#6121f5);opacity:.7;margin-top:.15rem"></div></div>
-            <div class="mock-card" style="flex-shrink:0;display:flex;flex-direction:column;gap:.2rem;padding:.35rem;background:#fff;border:1px solid #e0e3ea;border-radius:3px;width:70px;height:auto"><div style="width:100%;aspect-ratio:1;background:#f7f8fb;border:1px solid #eceef4;border-radius:2px;display:flex;align-items:center;justify-content:center"><div style="width:55%;height:55%;background:#d8dce8;border-radius:2px"></div></div><div style="height:4px;border-radius:1px;background:#222831;opacity:.22;width:82%"></div><div style="height:4px;border-radius:1px;background:#222831;opacity:.13;width:58%"></div><div style="height:5px;border-radius:1px;background:#276ef1;width:55%;margin-top:.15rem"></div><div style="height:9px;border-radius:2px;background:linear-gradient(90deg,#276ef1,#6121f5);opacity:.7;margin-top:.15rem"></div></div>
-            <div class="mock-card" style="flex-shrink:0;display:flex;flex-direction:column;gap:.2rem;padding:.35rem;background:#fff;border:1px solid #e0e3ea;border-radius:3px;width:70px;height:auto;opacity:.35"><div style="width:100%;aspect-ratio:1;background:#f7f8fb;border:1px solid #eceef4;border-radius:2px;display:flex;align-items:center;justify-content:center"><div style="width:55%;height:55%;background:#d8dce8;border-radius:2px"></div></div><div style="height:4px;border-radius:1px;background:#222831;opacity:.22;width:70%"></div><div style="height:4px;border-radius:1px;background:#222831;opacity:.13;width:48%"></div><div style="height:5px;border-radius:1px;background:#276ef1;width:55%;margin-top:.15rem"></div><div style="height:9px;border-radius:2px;background:linear-gradient(90deg,#276ef1,#6121f5);opacity:.7;margin-top:.15rem"></div></div>
-          </div>
-        </div>
-        <ul class="format-props">
-          <li>Défilement horizontal</li>
-          <li>Présente peu d'items à la fois</li>
-          <li>Fort potentiel revenue documenté</li>
-          <li>Suspicion d'effet « publicité »</li>
-        </ul>
-      </div>
-
-      <div class="format-card concept">
-        <div class="format-badge">🅱 Concept</div>
-        <div class="format-letter">B</div>
-        <div class="format-name">Format Liste <span style="font-size:.8rem;font-weight:500;color:var(--text-muted)">(Listenformat)</span></div>
-        <div class="format-mockup mock-raja-bg">
-          <div class="mock-label" style="margin-bottom:.4rem">Simulation visuelle — 4 × 3</div>
-          <div class="mock-grid">
-            <div class="mock-grid-card"><div class="mock-grid-img"></div><div class="mock-grid-name"></div><div class="mock-grid-name2"></div><div class="mock-grid-ref"></div><div class="mock-grid-label"></div><div class="mock-grid-price"></div><div class="mock-grid-btn"></div></div>
-            <div class="mock-grid-card"><div class="mock-grid-img"></div><div class="mock-grid-name" style="width:80%"></div><div class="mock-grid-name2" style="width:55%"></div><div class="mock-grid-ref" style="width:48%"></div><div class="mock-grid-label"></div><div class="mock-grid-price"></div><div class="mock-grid-btn"></div></div>
-            <div class="mock-grid-card"><div class="mock-grid-img"></div><div class="mock-grid-name" style="width:88%"></div><div class="mock-grid-name2" style="width:60%"></div><div class="mock-grid-ref" style="width:52%"></div><div class="mock-grid-label"></div><div class="mock-grid-price" style="width:55%"></div><div class="mock-grid-btn"></div></div>
-            <div class="mock-grid-card"><div class="mock-grid-img"></div><div class="mock-grid-name" style="width:75%"></div><div class="mock-grid-name2" style="width:50%"></div><div class="mock-grid-ref" style="width:44%"></div><div class="mock-grid-label"></div><div class="mock-grid-price"></div><div class="mock-grid-btn"></div></div>
-            <div class="mock-grid-card"><div class="mock-grid-img"></div><div class="mock-grid-name"></div><div class="mock-grid-name2" style="width:65%"></div><div class="mock-grid-ref" style="width:58%"></div><div class="mock-grid-label"></div><div class="mock-grid-price" style="width:52%"></div><div class="mock-grid-btn"></div></div>
-            <div class="mock-grid-card"><div class="mock-grid-img"></div><div class="mock-grid-name" style="width:84%"></div><div class="mock-grid-name2"></div><div class="mock-grid-ref" style="width:46%"></div><div class="mock-grid-label"></div><div class="mock-grid-price"></div><div class="mock-grid-btn"></div></div>
-            <div class="mock-grid-card"><div class="mock-grid-img"></div><div class="mock-grid-name" style="width:90%"></div><div class="mock-grid-name2" style="width:62%"></div><div class="mock-grid-ref" style="width:50%"></div><div class="mock-grid-label"></div><div class="mock-grid-price" style="width:58%"></div><div class="mock-grid-btn"></div></div>
-            <div class="mock-grid-card"><div class="mock-grid-img"></div><div class="mock-grid-name" style="width:72%"></div><div class="mock-grid-name2" style="width:48%"></div><div class="mock-grid-ref" style="width:54%"></div><div class="mock-grid-label"></div><div class="mock-grid-price"></div><div class="mock-grid-btn"></div></div>
-            <div class="mock-grid-card"><div class="mock-grid-img"></div><div class="mock-grid-name"></div><div class="mock-grid-name2" style="width:56%"></div><div class="mock-grid-ref" style="width:42%"></div><div class="mock-grid-label"></div><div class="mock-grid-price" style="width:50%"></div><div class="mock-grid-btn"></div></div>
-            <div class="mock-grid-card"><div class="mock-grid-img"></div><div class="mock-grid-name" style="width:78%"></div><div class="mock-grid-name2" style="width:58%"></div><div class="mock-grid-ref" style="width:47%"></div><div class="mock-grid-label"></div><div class="mock-grid-price"></div><div class="mock-grid-btn"></div></div>
-            <div class="mock-grid-card"><div class="mock-grid-img"></div><div class="mock-grid-name" style="width:86%"></div><div class="mock-grid-name2"></div><div class="mock-grid-ref" style="width:52%"></div><div class="mock-grid-label"></div><div class="mock-grid-price" style="width:62%"></div><div class="mock-grid-btn"></div></div>
-            <div class="mock-grid-card"><div class="mock-grid-img"></div><div class="mock-grid-name" style="width:68%"></div><div class="mock-grid-name2" style="width:44%"></div><div class="mock-grid-ref" style="width:56%"></div><div class="mock-grid-label"></div><div class="mock-grid-price"></div><div class="mock-grid-btn"></div></div>
-          </div>
-        </div>
-        <ul class="format-props">
-          <li>Présentation verticale, structurée</li>
-          <li>Proche d'une Page Liste <em>(Listen-Seite)</em>, non d'une page catégorie</li>
-          <li>Hypothèse : perception moins publicitaire <em>(weniger werblich)</em></li>
-          <li>Hypothèse : intention d'usage plus élevée <em>(höhere Nutzungsabsicht)</em></li>
-        </ul>
-      </div>
-    </div>
-  </section>
-</div>
-
-<hr class="divider" />
-
-<!-- HYPOTHESES -->
-<div class="container" id="hypotheses">
-  <section>
-    <div class="section-label"><span class="num">04</span> Hypothèses testées</div>
-    <h2>Ce que nous cherchons à valider</h2>
-    <p class="section-intro">Trois hypothèses opérationnelles, mesurables, indépendantes.</p>
-
-    <div class="hyp-cards">
-      <div class="hyp-card">
-        <div class="hyp-id">H1</div>
-        <div>
-          <div class="hyp-text">Le format Liste est perçu comme moins publicitaire que le carrousel.</div>
-          <div class="hyp-sub">Mesure principale : score de perception publicitaire (échelle 1–7), différence significative entre A et B.</div>
-        </div>
-      </div>
-      <div class="hyp-card">
-        <div class="hyp-id">H2</div>
-        <div>
-          <div class="hyp-text">Le format Liste génère une intention déclarée de clic plus élevée.</div>
-          <div class="hyp-sub">Mesure principale : score composite d'intention (matrice 4 items), supérieur pour B vs. A.</div>
-        </div>
-      </div>
-      <div class="hyp-card">
-        <div class="hyp-id">H3</div>
-        <div>
-          <div class="hyp-text">Le carrousel est plus facilement ignoré (effet « banner blindness »).</div>
-          <div class="hyp-sub">Mesure principale : item d'intention d'ignorer (inversé), score plus élevé pour A que pour B.</div>
-        </div>
-      </div>
-    </div>
-  </section>
-</div>
-
-<hr class="divider" />
-
-<!-- TARGET -->
-<div class="container">
-  <section>
-    <div class="section-label"><span class="num">05</span> Cible</div>
-    <h2>Profil des participants</h2>
-    <p class="section-intro">Des acheteurs professionnels correspondant précisément à notre ICP sur le marché allemand.</p>
-
-    <div class="target-grid">
-      <div class="target-item">
-        <div class="t-icon">🇩🇪</div>
-        <p>Acheteurs professionnels <strong>allemands</strong> <em>(deutsche Geschäftskunden)</em></p>
-      </div>
-      <div class="target-item">
-        <div class="t-icon">📦</div>
-        <p>Responsables d'achat en <strong>fournitures d'emballage</strong></p>
-      </div>
-      <div class="target-item">
-        <div class="t-icon">✅</div>
-        <p><strong>Décideurs ou co-décideurs</strong> dans le processus d'achat</p>
-      </div>
-      <div class="target-item">
-        <div class="t-icon">💻</div>
-        <p>Commandent <strong>régulièrement en ligne</strong></p>
-      </div>
-    </div>
-  </section>
-</div>
-
-<hr class="divider" />
-
-<!-- METHODOLOGY -->
-<div class="container" id="methodo">
-  <section>
-    <div class="section-label"><span class="num">06</span> Méthodologie</div>
-    <h2>Design du test</h2>
-    <p class="section-intro">Non modéré, comparatif, séquentiel — optimisé pour une collecte rapide et une analyse rigoureuse.</p>
-
-    <div class="method-grid">
-      <div class="method-item">
-        <div class="method-key">Plateforme</div>
-        <div class="method-val accent">UserTesting</div>
-      </div>
-      <div class="method-item">
-        <div class="method-key">Format</div>
-        <div class="method-val">Non modéré <span style="font-size:.8rem;font-weight:400;color:var(--text-muted)">(Unmoderierter Test)</span></div>
-      </div>
-      <div class="method-item">
-        <div class="method-key">Feedback</div>
-        <div class="method-val">Écrit uniquement <span style="font-size:.8rem;font-weight:400;color:var(--text-muted)">(schriftliches Feedback)</span></div>
-      </div>
-      <div class="method-item">
-        <div class="method-key">Durée</div>
-        <div class="method-val">15 – 20 min</div>
-      </div>
-      <div class="method-item">
-        <div class="method-key">Design</div>
-        <div class="method-val">Comparatif séquentiel</div>
-      </div>
-      <div class="method-item">
-        <div class="method-key">Ordre</div>
-        <div class="method-val accent">Randomisé <span style="font-size:.8rem;font-weight:400;color:var(--blue-mid)">(randomisierte Reihenfolge)</span></div>
-      </div>
-      <div class="method-item">
-        <div class="method-key">Prototypes</div>
-        <div class="method-val">Statiques · pas d'interaction</div>
-      </div>
-      <div class="method-item">
-        <div class="method-key">Échantillon</div>
-        <div class="method-val accent">n ≈ 50 participants</div>
-      </div>
-    </div>
-  </section>
-</div>
-
-<hr class="divider" />
-
-<!-- MEASURES -->
-<div class="container">
-  <section>
-    <div class="section-label"><span class="num">07</span> Mesures collectées</div>
-    <h2>Données quantitatives & qualitatives</h2>
-    <p class="section-intro">Un protocole mixte pour capturer à la fois des scores comparables et la richesse des verbatims.</p>
-
-    <div class="measures-grid">
-      <div class="measures-block">
-        <h3 class="quant">📊 Quantitatives</h3>
-        <ul class="measure-list">
-          <li><div class="measure-dot"></div><span>Perception publicitaire <em>(Werbliche Wahrnehmung)</em> — <strong>échelle 1–7</strong></span></li>
-          <li><div class="measure-dot"></div><span>Intention de clic <em>(Klickabsicht)</em> — <strong>matrice</strong></span></li>
-          <li><div class="measure-dot"></div><span>Intention d'ignorer <em>(Ignorier-Tendenz)</em> — <strong>item inversé</strong></span></li>
-          <li><div class="measure-dot"></div><span>Préférence globale <em>(Gesamtpräferenz)</em> — <strong>A vs. B</strong></span></li>
-          <li><div class="measure-dot"></div><span>Temps passé <strong>par écran</strong></span></li>
-        </ul>
-      </div>
-      <div class="measures-block">
-        <h3 class="qual">💬 Qualitatives</h3>
-        <ul class="measure-list">
-          <li><div class="measure-dot"></div><span>Raisons de perception publicitaire</span></li>
-          <li><div class="measure-dot"></div><span>Ressenti spontané</span></li>
-          <li><div class="measure-dot"></div><span>Explication de la préférence déclarée</span></li>
-        </ul>
-      </div>
-    </div>
-  </section>
-</div>
-
-<hr class="divider" />
-
-<!-- KPIs -->
-<div class="container" id="kpis">
-  <section>
-    <div class="section-label"><span class="num">08</span> KPIs clés</div>
-    <h2>Ce qu'on mesurera pour décider</h2>
-    <p class="section-intro">Cinq indicateurs principaux, avec un seuil de significativité statistique entre A et B.</p>
-
-    <div class="kpi-grid">
-      <div class="kpi-card">
-        <div class="kpi-label">KPI 01</div>
-        <div class="kpi-name">Score moyen « Perception publicitaire »</div>
-        <div class="kpi-bar"><div class="kpi-bar-fill"></div></div>
-      </div>
-      <div class="kpi-card">
-        <div class="kpi-label">KPI 02</div>
-        <div class="kpi-name">Score composite « Intention d'usage »</div>
-        <div class="kpi-bar"><div class="kpi-bar-fill"></div></div>
-      </div>
-      <div class="kpi-card">
-        <div class="kpi-label">KPI 03</div>
-        <div class="kpi-name">% préférant Liste vs. Carrousel</div>
-        <div class="kpi-bar"><div class="kpi-bar-fill"></div></div>
-      </div>
-      <div class="kpi-card">
-        <div class="kpi-label">KPI 04</div>
-        <div class="kpi-name">% déclarant ignorer la zone</div>
-        <div class="kpi-bar"><div class="kpi-bar-fill"></div></div>
-      </div>
-      <div class="kpi-card">
-        <div class="kpi-label">KPI 05</div>
-        <div class="kpi-name">Différences statistiques entre formats</div>
-        <div class="kpi-bar"><div class="kpi-bar-fill"></div></div>
-      </div>
-    </div>
-  </section>
-</div>
-
-<hr class="divider" />
-
-<!-- SCOPE -->
-<div class="container">
-  <section>
-    <div class="section-label"><span class="num">09</span> Périmètre de décision</div>
-    <h2>Ce que ce test permet — et ne permet pas</h2>
-    <p class="section-intro">Clarifier le périmètre dès maintenant évite les mauvaises surprises à l'analyse.</p>
-
-    <div class="scope-grid">
-      <div class="scope-block will">
-        <h3>✓ Ce test permettra de trancher</h3>
-        <ul class="scope-list">
-          <li><span class="scope-check">✅</span><span>Le format Liste réduit-il la perception publicitaire ?</span></li>
-          <li><span class="scope-check">✅</span><span>Le format Liste augmente-t-il l'intention déclarée de consultation ?</span></li>
-          <li><span class="scope-check">✅</span><span>Le carrousel est-il réellement perçu comme promotionnel ?</span></li>
-          <li><span class="scope-check">✅</span><span>Existe-t-il un risque de dégradation d'intention avec le changement ?</span></li>
-        </ul>
-      </div>
-      <div class="scope-block wont">
-        <h3>✗ Ce test ne permettra PAS de décider</h3>
-        <ul class="scope-list">
-          <li><span class="scope-check">🚫</span><span>L'impact réel sur la <strong>Klickrate (CTR)</strong></span></li>
-          <li><span class="scope-check">🚫</span><span>L'impact réel sur le panier moyen</span></li>
-          <li><span class="scope-check">🚫</span><span>Les effets comportementaux liés à l'interaction</span></li>
-          <li><span class="scope-check">🚫</span><span>→ Ces éléments seront mesurés en <strong>Live-A/B-Test</strong></span></li>
-        </ul>
-      </div>
-    </div>
-  </section>
-</div>
-
-<hr class="divider" />
-
-<!-- RATIONALE -->
-<div class="container">
-  <section>
-    <div class="section-label"><span class="num">10</span> Pourquoi avant le Live-A/B-Test ?</div>
-    <h2>La valeur de ce test dans la séquence</h2>
-
-    <div class="rationale-card">
-      <h3>Un Live-A/B-Test mesure le comportement réel. Mais s'il n'y a pas de différence significative, il n'explique pas pourquoi.</h3>
-      <p>Ce test perceptif permet d'identifier les mécanismes <em>avant</em> le déploiement, et de sécuriser l'hypothèse avant de lancer un A/B test en production.</p>
-      <ul class="rationale-list">
-        <li><span class="r-icon">🧠</span><span>Identifier les mécanismes perceptifs et cognitifs</span></li>
-        <li><span class="r-icon">🔓</span><span>Comprendre les freins cognitifs à l'engagement</span></li>
-        <li><span class="r-icon">🛡</span><span>Sécuriser l'hypothèse avant déploiement</span></li>
-        <li><span class="r-icon">🚀</span><span>Éviter un A/B test basé sur une hypothèse fragile</span></li>
-      </ul>
-    </div>
-  </section>
-</div>
-
-<hr class="divider" />
-
-<!-- EXCLUSION -->
-<div class="container">
-  <section>
-    <div class="section-label"><span class="num">11</span> Exclusion volontaire</div>
-    <h2>Ce que nous avons retiré du scope</h2>
-    <p class="section-intro">Une décision méthodologique délibérée pour garder le test focalisé.</p>
-
-    <div class="exclusion-card">
-      <div class="exclusion-icon">🔕</div>
-      <div>
-        <h4>Dimension Pertinence & Crédibilité <em>(Relevanz & Glaubwürdigkeit)</em> exclue</h4>
-        <p>Nous comparons uniquement l'impact du <strong>format visuel</strong>, pas la qualité des recommandations. L'introduire risquerait de polluer les résultats avec un biais de contenu indépendant du format.</p>
-      </div>
-    </div>
-  </section>
-</div>
-
-<hr class="divider" />
-
-<!-- SAMPLE SIZE -->
-<div class="container">
-  <section>
-    <div class="section-label"><span class="num">12</span> Taille d'échantillon</div>
-    <h2>Pourquoi n ≈ 50 ?</h2>
-
-    <div class="sample-card">
-      <div class="sample-num">40<span>–60</span></div>
-      <div class="sample-text">
-        <h3>Participants minimum recommandés</h3>
-        <p>Cette taille d'échantillon permet de détecter un <strong>effet modéré entre A et B</strong> avec une puissance statistique suffisante. En dessous de 40, on risque de manquer un effet réel. Au-delà de 60, le coût marginal de chaque participant ne justifie pas le gain en précision pour un test perceptif déclaratif.</p>
-      </div>
-    </div>
-  </section>
-</div>
-
-<hr class="divider" />
-
-<!-- RISKS -->
-<div class="container">
-  <section>
-    <div class="section-label"><span class="num">13</span> Risques méthodologiques</div>
-    <h2>Identifiés & mitigés</h2>
-    <p class="section-intro">Une transparence totale sur les limites du design, avec les contre-mesures en place.</p>
-
-    <div class="risk-grid">
-      <div class="risk-row">
-        <div class="risk-item danger">
-          <h4>⚠ Risque</h4>
-          <p>Déclaratif ≠ comportement réel</p>
-        </div>
-        <div class="risk-item mitigation">
-          <h4>✓ Mitigation</h4>
-          <p>Validation via Live-A/B-Test après ce test perceptif</p>
-        </div>
-      </div>
-      <div class="risk-row">
-        <div class="risk-item danger">
-          <h4>⚠ Risque</h4>
-          <p>Pas d'interaction mesurée (scroll, clic réel)</p>
-        </div>
-        <div class="risk-item mitigation">
-          <h4>✓ Mitigation</h4>
-          <p>Prototypes statiques assumés — décision documentée dans le scope</p>
-        </div>
-      </div>
-      <div class="risk-row">
-        <div class="risk-item danger">
-          <h4>⚠ Risque</h4>
-          <p>Biais d'ordre si pas randomisé (primacy / recency)</p>
-        </div>
-        <div class="risk-item mitigation">
-          <h4>✓ Mitigation</h4>
-          <p>Ordre randomisé côté UserTesting (A→B ou B→A)</p>
-        </div>
-      </div>
-      <div class="risk-row">
-        <div class="risk-item danger">
-          <h4>⚠ Risque</h4>
-          <p>Effet de comparaison forcée (demande caractéristique)</p>
-        </div>
-        <div class="risk-item mitigation">
-          <h4>✓ Mitigation</h4>
-          <p>Matrices standardisées + items inversés pour neutraliser le biais de désirabilité</p>
-        </div>
-      </div>
-    </div>
-  </section>
-</div>
-
-<!-- CTA DECISION -->
-<div class="container" id="decision">
-  <div class="cta-section">
-    <h2>🎯 Décision attendue de l'équipe produit</h2>
-    <p>Quatre points à valider pour lancer ce test dans les meilleurs délais.</p>
-
-    <div class="cta-items">
-      <div class="cta-item">
-        <div class="ci-check">✓</div>
-        <span>Lancement opérationnel du test UserTesting</span>
-      </div>
-      <div class="cta-item">
-        <div class="ci-check">✓</div>
-        <span>Échantillon cible (≈ 50 participants)</span>
-      </div>
-      <div class="cta-item">
-        <div class="ci-check">✓</div>
-        <span>Planning lancement & analyse (≈ 2 semaines)</span>
-      </div>
-      <div class="cta-item">
-        <div class="ci-check">✓</div>
-        <span>Enchaînement vers Live-A/B-Test selon résultats</span>
-      </div>
-    </div>
-
-    <div class="cta-buttons">
-      <a href="#" class="btn-primary">✅ Valider le test</a>
-      <a href="#" class="btn-secondary">💬 Demander des modifications</a>
+      <button class="fullscreen-btn" id="fullscreenBtn" title="Plein écran">⛶</button>
     </div>
   </div>
+</header>
+
+<!-- DECK -->
+<main class="deck" id="deck">
+
+  <!-- ════ SLIDE 1 — TITRE ════ -->
+  <div class="slide slide-title-bg active" data-title="Introduction">
+    <div class="slide-inner">
+      <div class="title-eyebrow">User Research · Marché Allemand B2B</div>
+      <h1>Carrousel vs. Liste :<br/>quel format pour les <em>recommandations produit</em> ?</h1>
+      <p class="title-sub">Test utilisateur non modéré pour comprendre les mécanismes perceptifs avant tout Live-A/B-Test — sécuriser l'hypothèse et réduire le risque avant déploiement.</p>
+      <div class="hero-stats">
+        <div class="stat-pill"><span>🎯</span><span><strong>n ≈ 50</strong> participants</span></div>
+        <div class="stat-pill"><span>⏱</span><span><strong>15–20 min</strong> / session</span></div>
+        <div class="stat-pill"><span>📍</span><span><strong>UserTesting</strong> · Non modéré</span></div>
+        <div class="stat-pill"><span>📅</span><span><strong>≈ 2 semaines</strong> incl. analyse</span></div>
+        <div class="stat-pill"><span>🇩🇪</span><span><strong>Acheteurs B2B</strong> allemands</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ════ SLIDE 2 — CONTEXTE ════ -->
+  <div class="slide" data-title="Contexte">
+    <div class="slide-inner">
+      <div class="slide-head">
+        <div class="section-label"><span class="num">01</span> Contexte</div>
+        <h2>Situation actuelle & opportunité</h2>
+        <p class="section-intro">Une fonctionnalité à fort potentiel revenue, mais une suspicion de friction perceptive sur le marché cible.</p>
+      </div>
+      <div class="grid-2">
+        <div class="context-card">
+          <h3>Aujourd'hui — Carrousel (Karussell-Format)</h3>
+          <div class="status-list">
+            <div class="status-item"><div class="status-icon bg-green">✓</div><span>Forte contribution au revenu assisté lorsqu'il est utilisé</span></div>
+            <div class="status-item"><div class="status-icon bg-blue">📊</div><span>Présent sur toutes les pages produit</span></div>
+            <div class="status-item"><div class="status-icon bg-amber">⚠</div><span>Suspicion d'une perception « publicitaire » sur le marché allemand</span></div>
+          </div>
+          <div class="hyp-box">
+            <div class="lbl">Hypothèse principale</div>
+            <p>Un format Liste (Listenformat), plus structuré et transactionnel, pourrait réduire l'effet « bannière publicitaire » et augmenter l'intention d'usage.</p>
+          </div>
+        </div>
+        <div class="context-card">
+          <h3>Le problème à résoudre</h3>
+          <div class="status-list">
+            <div class="status-item"><div class="status-icon bg-red">?</div><span>Le carrousel est-il réellement ignoré comme une publicité ?</span></div>
+            <div class="status-item"><div class="status-icon bg-red">?</div><span>La liste changerait-elle la perception et l'intention ?</span></div>
+            <div class="status-item"><div class="status-icon bg-red">?</div><span>Y a-t-il un risque de dégradation si on change de format ?</span></div>
+          </div>
+          <div class="hyp-box" style="background:var(--amber-light);border-left-color:var(--amber)">
+            <div class="lbl" style="color:var(--amber)">Enjeu business</div>
+            <p>Augmenter le taux d'utilisation des recommandations → uplift du revenu assisté.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ════ SLIDE 3 — OBJECTIFS ════ -->
+  <div class="slide" data-title="Objectifs">
+    <div class="slide-inner">
+      <div class="slide-head">
+        <div class="section-label"><span class="num">02</span> Objectifs</div>
+        <h2>Deux niveaux d'ambition</h2>
+        <p class="section-intro">Un test à double lecture — business et research — pour aligner toutes les parties prenantes.</p>
+      </div>
+      <div class="grid-2">
+        <div class="obj-card business">
+          <div class="obj-icon">📈</div>
+          <div class="obj-tag">Business Goal</div>
+          <h3>Améliorer le taux d'utilisation des recommandations</h3>
+          <p>Comprendre quel format visuel maximise l'engagement déclaré avec la zone de recommandations, en vue d'augmenter le revenu assisté sur la page produit.</p>
+        </div>
+        <div class="obj-card research">
+          <div class="obj-icon">🔬</div>
+          <div class="obj-tag">Research Goal</div>
+          <h3>Comparer perception & intention entre les deux formats</h3>
+          <p>Évaluer objectivement si le format Liste réduit la perception publicitaire et génère une intention de clic plus élevée que le Carrousel actuel.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ════ SLIDE 4 — FORMATS A vs B ════ -->
+  <div class="slide" data-title="Formats A vs B">
+    <div class="slide-inner">
+      <div class="slide-head">
+        <div class="section-label"><span class="num">03</span> Les deux formats testés</div>
+        <h2>A vs. B — Test comparatif séquentiel</h2>
+        <p class="section-intro">Prototypes statiques, ordre randomisé. Pas d'interaction mesurée à ce stade.</p>
+      </div>
+      <div class="grid-2">
+        <div class="format-card variant-a">
+          <div class="format-badge">🅰 Actuel</div>
+          <div class="format-letter">A</div>
+          <div class="format-name">Format Carrousel</div>
+          <div class="format-mockup">
+            <div class="mock-label">Simulation visuelle</div>
+            <div class="mock-carousel">
+              <div class="mock-card-item"><div class="mci-img"></div><div class="mci-name"></div><div class="mci-name2"></div><div class="mci-price"></div><div class="mci-btn"></div></div>
+              <div class="mock-card-item"><div class="mci-img"></div><div class="mci-name" style="width:75%"></div><div class="mci-name2" style="width:55%"></div><div class="mci-price"></div><div class="mci-btn"></div></div>
+              <div class="mock-card-item"><div class="mci-img"></div><div class="mci-name" style="width:82%"></div><div class="mci-name2" style="width:60%"></div><div class="mci-price"></div><div class="mci-btn"></div></div>
+              <div class="mock-card-item faded"><div class="mci-img"></div><div class="mci-name" style="width:70%"></div><div class="mci-name2" style="width:48%"></div><div class="mci-price"></div><div class="mci-btn"></div></div>
+            </div>
+          </div>
+          <ul class="format-props">
+            <li>Défilement horizontal</li>
+            <li>Présente peu d'items à la fois</li>
+            <li>Fort potentiel revenue documenté</li>
+            <li>Suspicion d'effet « publicité »</li>
+          </ul>
+        </div>
+        <div class="format-card variant-b">
+          <div class="format-badge">🅱 Concept</div>
+          <div class="format-letter">B</div>
+          <div class="format-name">Format Liste <span style="font-size:.78rem;font-weight:500;color:var(--text-muted)">(Listenformat)</span></div>
+          <div class="format-mockup">
+            <div class="mock-label">Simulation visuelle — 4 × 3</div>
+            <div class="mock-grid">
+              <div class="mock-grid-card"><div class="mg-img"></div><div class="mg-n"></div><div class="mg-n2"></div><div class="mg-r"></div><div class="mg-p"></div><div class="mg-b"></div></div>
+              <div class="mock-grid-card"><div class="mg-img"></div><div class="mg-n" style="width:78%"></div><div class="mg-n2" style="width:55%"></div><div class="mg-r"></div><div class="mg-p"></div><div class="mg-b"></div></div>
+              <div class="mock-grid-card"><div class="mg-img"></div><div class="mg-n" style="width:85%"></div><div class="mg-n2" style="width:62%"></div><div class="mg-r" style="width:45%"></div><div class="mg-p"></div><div class="mg-b"></div></div>
+              <div class="mock-grid-card"><div class="mg-img"></div><div class="mg-n" style="width:72%"></div><div class="mg-n2" style="width:50%"></div><div class="mg-r" style="width:40%"></div><div class="mg-p"></div><div class="mg-b"></div></div>
+              <div class="mock-grid-card"><div class="mg-img"></div><div class="mg-n"></div><div class="mg-n2" style="width:58%"></div><div class="mg-r" style="width:52%"></div><div class="mg-p"></div><div class="mg-b"></div></div>
+              <div class="mock-grid-card"><div class="mg-img"></div><div class="mg-n" style="width:82%"></div><div class="mg-n2"></div><div class="mg-r" style="width:44%"></div><div class="mg-p"></div><div class="mg-b"></div></div>
+              <div class="mock-grid-card"><div class="mg-img"></div><div class="mg-n" style="width:88%"></div><div class="mg-n2" style="width:65%"></div><div class="mg-r" style="width:48%"></div><div class="mg-p"></div><div class="mg-b"></div></div>
+              <div class="mock-grid-card"><div class="mg-img"></div><div class="mg-n" style="width:70%"></div><div class="mg-n2" style="width:46%"></div><div class="mg-r" style="width:54%"></div><div class="mg-p"></div><div class="mg-b"></div></div>
+              <div class="mock-grid-card"><div class="mg-img"></div><div class="mg-n"></div><div class="mg-n2" style="width:54%"></div><div class="mg-r" style="width:42%"></div><div class="mg-p"></div><div class="mg-b"></div></div>
+              <div class="mock-grid-card"><div class="mg-img"></div><div class="mg-n" style="width:76%"></div><div class="mg-n2" style="width:58%"></div><div class="mg-r" style="width:46%"></div><div class="mg-p"></div><div class="mg-b"></div></div>
+              <div class="mock-grid-card"><div class="mg-img"></div><div class="mg-n" style="width:84%"></div><div class="mg-n2"></div><div class="mg-r" style="width:50%"></div><div class="mg-p"></div><div class="mg-b"></div></div>
+              <div class="mock-grid-card"><div class="mg-img"></div><div class="mg-n" style="width:66%"></div><div class="mg-n2" style="width:44%"></div><div class="mg-r" style="width:56%"></div><div class="mg-p"></div><div class="mg-b"></div></div>
+            </div>
+          </div>
+          <ul class="format-props">
+            <li>Présentation verticale, structurée</li>
+            <li>Proche d'une Page Liste <em>(Listen-Seite)</em></li>
+            <li>Hypothèse : <em>weniger werblich</em> perçu</li>
+            <li>Hypothèse : intention d'usage plus élevée</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ════ SLIDE 5 — HYPOTHÈSES ════ -->
+  <div class="slide" data-title="Hypothèses">
+    <div class="slide-inner">
+      <div class="slide-head">
+        <div class="section-label"><span class="num">04</span> Hypothèses testées</div>
+        <h2>Ce que nous cherchons à valider</h2>
+        <p class="section-intro">Trois hypothèses opérationnelles, mesurables, indépendantes.</p>
+      </div>
+      <div class="hyp-cards">
+        <div class="hyp-card">
+          <div class="hyp-id">H1</div>
+          <div>
+            <div class="hyp-text">Le format Liste est perçu comme moins publicitaire que le carrousel.</div>
+            <div class="hyp-sub">Score de perception publicitaire (échelle 1–7) — différence significative entre A et B.</div>
+          </div>
+        </div>
+        <div class="hyp-card">
+          <div class="hyp-id">H2</div>
+          <div>
+            <div class="hyp-text">Le format Liste génère une intention déclarée de clic plus élevée.</div>
+            <div class="hyp-sub">Score composite d'intention (matrice 4 items) — supérieur pour B vs. A.</div>
+          </div>
+        </div>
+        <div class="hyp-card">
+          <div class="hyp-id">H3</div>
+          <div>
+            <div class="hyp-text">Le carrousel est plus facilement ignoré (Banner-Blindness-Effekt).</div>
+            <div class="hyp-sub">Item d'intention d'ignorer (inversé) — score plus élevé pour A que pour B.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ════ SLIDE 6 — CIBLE ════ -->
+  <div class="slide" data-title="Cible">
+    <div class="slide-inner">
+      <div class="slide-head">
+        <div class="section-label"><span class="num">05</span> Cible</div>
+        <h2>Profil des participants</h2>
+        <p class="section-intro">Des acheteurs professionnels correspondant précisément à notre ICP sur le marché allemand.</p>
+      </div>
+      <div class="target-grid">
+        <div class="target-item"><div class="t-icon">🇩🇪</div><p>Acheteurs professionnels <strong>allemands</strong> <em>(deutsche Geschäftskunden)</em></p></div>
+        <div class="target-item"><div class="t-icon">📦</div><p>Responsables d'achat en <strong>fournitures d'emballage</strong></p></div>
+        <div class="target-item"><div class="t-icon">✅</div><p><strong>Décideurs ou co-décideurs</strong> dans le processus d'achat</p></div>
+        <div class="target-item"><div class="t-icon">💻</div><p>Commandent <strong>régulièrement en ligne</strong></p></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ════ SLIDE 7 — MÉTHODOLOGIE ════ -->
+  <div class="slide" data-title="Méthodologie">
+    <div class="slide-inner">
+      <div class="slide-head">
+        <div class="section-label"><span class="num">06</span> Méthodologie</div>
+        <h2>Design du test</h2>
+        <p class="section-intro">Non modéré, comparatif, séquentiel — optimisé pour une collecte rapide et une analyse rigoureuse.</p>
+      </div>
+      <div class="method-grid">
+        <div class="method-item"><div class="method-key">Plateforme</div><div class="method-val accent">UserTesting</div></div>
+        <div class="method-item"><div class="method-key">Format</div><div class="method-val">Non modéré<br/><span class="method-sub">(Unmoderierter Test)</span></div></div>
+        <div class="method-item"><div class="method-key">Feedback</div><div class="method-val">Écrit uniquement<br/><span class="method-sub">(schriftliches Feedback)</span></div></div>
+        <div class="method-item"><div class="method-key">Durée</div><div class="method-val">15 – 20 min</div></div>
+        <div class="method-item"><div class="method-key">Design</div><div class="method-val">Comparatif séquentiel</div></div>
+        <div class="method-item"><div class="method-key">Ordre</div><div class="method-val accent">Randomisé<br/><span class="method-sub" style="color:var(--blue-mid)">(randomisierte Reihenfolge)</span></div></div>
+        <div class="method-item"><div class="method-key">Prototypes</div><div class="method-val">Statiques · sans interaction</div></div>
+        <div class="method-item"><div class="method-key">Échantillon</div><div class="method-val accent">n ≈ 50 participants</div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ════ SLIDE 8 — MESURES ════ -->
+  <div class="slide" data-title="Mesures">
+    <div class="slide-inner">
+      <div class="slide-head">
+        <div class="section-label"><span class="num">07</span> Mesures collectées</div>
+        <h2>Données quantitatives & qualitatives</h2>
+        <p class="section-intro">Protocole mixte pour capturer des scores comparables et la richesse des verbatims.</p>
+      </div>
+      <div class="measures-grid">
+        <div class="measures-block quant">
+          <h3>📊 Quantitatives</h3>
+          <ul class="measure-list">
+            <li><div class="mdot"></div><span>Perception publicitaire <em>(Werbliche Wahrnehmung)</em> — <strong>échelle 1–7</strong></span></li>
+            <li><div class="mdot"></div><span>Intention de clic <em>(Klickabsicht)</em> — <strong>matrice</strong></span></li>
+            <li><div class="mdot"></div><span>Intention d'ignorer <em>(Ignorier-Tendenz)</em> — <strong>item inversé</strong></span></li>
+            <li><div class="mdot"></div><span>Préférence globale <em>(Gesamtpräferenz)</em> — <strong>A vs. B</strong></span></li>
+            <li><div class="mdot"></div><span>Temps passé <strong>par écran</strong></span></li>
+          </ul>
+        </div>
+        <div class="measures-block qual">
+          <h3>💬 Qualitatives</h3>
+          <ul class="measure-list">
+            <li><div class="mdot"></div><span>Raisons de perception publicitaire</span></li>
+            <li><div class="mdot"></div><span>Ressenti spontané</span></li>
+            <li><div class="mdot"></div><span>Explication de la préférence déclarée</span></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ════ SLIDE 9 — KPIs ════ -->
+  <div class="slide" data-title="KPIs">
+    <div class="slide-inner">
+      <div class="slide-head">
+        <div class="section-label"><span class="num">08</span> KPIs clés</div>
+        <h2>Ce qu'on mesurera pour décider</h2>
+        <p class="section-intro">Cinq indicateurs principaux, avec seuil de significativité statistique entre A et B.</p>
+      </div>
+      <div class="kpi-grid">
+        <div class="kpi-card"><div class="kpi-lbl">KPI 01</div><div class="kpi-name">Score moyen « Perception publicitaire »</div><div class="kpi-bar"><div class="kpi-fill" style="width:85%"></div></div></div>
+        <div class="kpi-card"><div class="kpi-lbl">KPI 02</div><div class="kpi-name">Score composite « Intention d'usage »</div><div class="kpi-bar"><div class="kpi-fill" style="width:70%"></div></div></div>
+        <div class="kpi-card"><div class="kpi-lbl">KPI 03</div><div class="kpi-name">% préférant Liste vs. Carrousel</div><div class="kpi-bar"><div class="kpi-fill" style="width:60%"></div></div></div>
+        <div class="kpi-card"><div class="kpi-lbl">KPI 04</div><div class="kpi-name">% déclarant ignorer la zone</div><div class="kpi-bar"><div class="kpi-fill" style="width:45%"></div></div></div>
+        <div class="kpi-card"><div class="kpi-lbl">KPI 05</div><div class="kpi-name">Différences statistiques entre formats</div><div class="kpi-bar"><div class="kpi-fill" style="width:90%"></div></div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ════ SLIDE 10 — PÉRIMÈTRE ════ -->
+  <div class="slide" data-title="Périmètre">
+    <div class="slide-inner">
+      <div class="slide-head">
+        <div class="section-label"><span class="num">09</span> Périmètre de décision</div>
+        <h2>Ce que ce test permet — et ne permet pas</h2>
+        <p class="section-intro">Clarifier le périmètre maintenant évite les mauvaises surprises à l'analyse.</p>
+      </div>
+      <div class="scope-grid">
+        <div class="scope-block will">
+          <h3>✓ Ce test permettra de trancher</h3>
+          <ul class="scope-list">
+            <li><span>✅</span><span>Le format Liste réduit-il la perception publicitaire ?</span></li>
+            <li><span>✅</span><span>Le format Liste augmente-t-il l'intention déclarée de consultation ?</span></li>
+            <li><span>✅</span><span>Le carrousel est-il réellement perçu comme promotionnel ?</span></li>
+            <li><span>✅</span><span>Existe-t-il un risque de dégradation d'intention ?</span></li>
+          </ul>
+        </div>
+        <div class="scope-block wont">
+          <h3>✗ Ce test ne permettra PAS de décider</h3>
+          <ul class="scope-list">
+            <li><span>🚫</span><span>L'impact réel sur la <strong>Klickrate (CTR)</strong></span></li>
+            <li><span>🚫</span><span>L'impact réel sur le panier moyen</span></li>
+            <li><span>🚫</span><span>Les effets comportementaux liés à l'interaction</span></li>
+            <li><span>🚫</span><span>→ Ces éléments seront mesurés en <strong>Live-A/B-Test</strong></span></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ════ SLIDE 11 — RATIONALE ════ -->
+  <div class="slide" data-title="Pourquoi avant le Live-A/B-Test">
+    <div class="slide-inner">
+      <div class="slide-head">
+        <div class="section-label"><span class="num">10</span> Pourquoi avant le Live-A/B-Test ?</div>
+        <h2>La valeur de ce test dans la séquence</h2>
+      </div>
+      <div class="rationale-card">
+        <h3>Un Live-A/B-Test mesure le comportement réel. Mais s'il n'y a pas de différence significative, il n'explique pas pourquoi.</h3>
+        <p>Ce test perceptif permet d'identifier les mécanismes <em>avant</em> le déploiement, et de sécuriser l'hypothèse avant de lancer un A/B test en production.</p>
+        <ul class="rationale-list">
+          <li><span>🧠</span><span>Identifier les mécanismes perceptifs et cognitifs</span></li>
+          <li><span>🔓</span><span>Comprendre les freins cognitifs à l'engagement</span></li>
+          <li><span>🛡</span><span>Sécuriser l'hypothèse avant déploiement</span></li>
+          <li><span>🚀</span><span>Éviter un A/B test basé sur une hypothèse fragile</span></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- ════ SLIDE 12 — EXCLUSION + ÉCHANTILLON ════ -->
+  <div class="slide" data-title="Exclusion & Échantillon">
+    <div class="slide-inner">
+      <div class="slide-head">
+        <div class="section-label"><span class="num">11 · 12</span> Exclusion & Échantillon</div>
+        <h2>Décisions de cadrage</h2>
+        <p class="section-intro">Ce que nous avons volontairement exclu, et pourquoi notre taille d'échantillon est adaptée.</p>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:1.25rem;">
+        <div class="exclusion-card">
+          <div class="exc-icon">🔕</div>
+          <div>
+            <h4>Dimension Pertinence & Crédibilité <em>(Relevanz & Glaubwürdigkeit)</em> exclue</h4>
+            <p>Nous comparons uniquement l'impact du <strong>format visuel</strong>, pas la qualité des recommandations. L'introduire polluerait les résultats avec un biais de contenu indépendant du format.</p>
+          </div>
+        </div>
+        <div class="sample-card">
+          <div class="sample-num">40<span>–60</span></div>
+          <div class="sample-text">
+            <h3>Participants minimum recommandés</h3>
+            <p>Permet de détecter un <strong>effet modéré entre A et B</strong> avec une puissance statistique suffisante. En dessous de 40, risque de manquer un effet réel. Au-delà de 60, le coût marginal ne justifie pas le gain en précision pour un test déclaratif.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ════ SLIDE 13 — RISQUES ════ -->
+  <div class="slide" data-title="Risques méthodologiques">
+    <div class="slide-inner">
+      <div class="slide-head">
+        <div class="section-label"><span class="num">13</span> Risques méthodologiques</div>
+        <h2>Identifiés & mitigés</h2>
+        <p class="section-intro">Transparence totale sur les limites du design, avec les contre-mesures en place.</p>
+      </div>
+      <div class="risk-table">
+        <div class="risk-row">
+          <div class="risk-cell danger"><h4>⚠ Risque</h4><p>Déclaratif ≠ comportement réel</p></div>
+          <div class="risk-cell mitigation"><h4>✓ Mitigation</h4><p>Validation via Live-A/B-Test après ce test perceptif</p></div>
+        </div>
+        <div class="risk-row">
+          <div class="risk-cell danger"><h4>⚠ Risque</h4><p>Pas d'interaction mesurée (scroll, clic réel)</p></div>
+          <div class="risk-cell mitigation"><h4>✓ Mitigation</h4><p>Prototypes statiques assumés — décision documentée dans le scope</p></div>
+        </div>
+        <div class="risk-row">
+          <div class="risk-cell danger"><h4>⚠ Risque</h4><p>Biais d'ordre si pas randomisé (primacy / recency)</p></div>
+          <div class="risk-cell mitigation"><h4>✓ Mitigation</h4><p>Ordre randomisé côté UserTesting (A→B ou B→A)</p></div>
+        </div>
+        <div class="risk-row">
+          <div class="risk-cell danger"><h4>⚠ Risque</h4><p>Effet de comparaison forcée (demande caractéristique)</p></div>
+          <div class="risk-cell mitigation"><h4>✓ Mitigation</h4><p>Matrices standardisées + items inversés pour neutraliser le biais de désirabilité</p></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ════ SLIDE 14 — DÉCISION ════ -->
+  <div class="slide slide-decision" data-title="Décision">
+    <div class="decision-inner">
+      <div class="decision-eyebrow">🎯 Décision attendue de l'équipe produit</div>
+      <h2>Votre go pour lancer ce test</h2>
+      <p class="sub">Quatre points à valider pour démarrer dans les meilleurs délais.</p>
+      <div class="decision-items">
+        <div class="decision-item"><div class="check">✓</div><span>Lancement opérationnel du test UserTesting</span></div>
+        <div class="decision-item"><div class="check">✓</div><span>Échantillon cible (≈ 50 participants)</span></div>
+        <div class="decision-item"><div class="check">✓</div><span>Planning lancement & analyse (≈ 2 semaines)</span></div>
+        <div class="decision-item"><div class="check">✓</div><span>Enchaînement vers Live-A/B-Test selon résultats</span></div>
+      </div>
+      <div class="decision-btns">
+        <a href="#" class="btn-primary">✅ Valider le test</a>
+        <a href="#" class="btn-secondary">💬 Demander des modifications</a>
+      </div>
+    </div>
+  </div>
+
+</main><!-- /deck -->
+
+<!-- BOTTOM DOTS NAV -->
+<footer class="deck-footer" id="deckFooter"></footer>
+
+<!-- KEYBOARD HINT -->
+<div class="key-hint">
+  <span class="key">←</span>
+  <span class="key">→</span>
 </div>
 
-<footer>
-  User Research · Carrousel vs. Liste · Marché B2B Allemand &nbsp;·&nbsp; Document de validation interne
-</footer>
+<script>
+  const slides = Array.from(document.querySelectorAll('.slide'));
+  const total  = slides.length;
+  let current  = 0;
+  let isAnimating = false;
 
+  // ── Build dots ──
+  const footer = document.getElementById('deckFooter');
+  slides.forEach((_, i) => {
+    const dot = document.createElement('button');
+    dot.className = 'dot' + (i === 0 ? ' active' : '');
+    dot.setAttribute('aria-label', 'Slide ' + (i + 1));
+    dot.addEventListener('click', () => goTo(i));
+    footer.appendChild(dot);
+  });
+
+  function getDots() { return footer.querySelectorAll('.dot'); }
+
+  function goTo(index, direction) {
+    if (isAnimating || index === current || index < 0 || index >= total) return;
+    isAnimating = true;
+
+    const prev = current;
+    const dir  = direction ?? (index > current ? 1 : -1);
+
+    // Exit current
+    slides[prev].classList.remove('active');
+    slides[prev].classList.add('exit');
+    setTimeout(() => {
+      slides[prev].classList.remove('exit');
+      slides[prev].style.transform = '';
+    }, 300);
+
+    // Prepare next (enter from right or left)
+    slides[index].style.transform = dir > 0 ? 'translateX(48px)' : 'translateX(-48px)';
+    slides[index].style.opacity = '0';
+    slides[index].style.transition = 'none';
+
+    requestAnimationFrame(() => {
+      requestAnimationFrame(() => {
+        slides[index].style.transition = '';
+        slides[index].style.transform  = '';
+        slides[index].style.opacity    = '';
+        slides[index].classList.add('active');
+        // Scroll to top of new slide
+        slides[index].scrollTop = 0;
+      });
+    });
+
+    current = index;
+    updateUI();
+    setTimeout(() => { isAnimating = false; }, 420);
+  }
+
+  function updateUI() {
+    // Counter
+    document.getElementById('slideCounter').textContent = (current + 1) + ' / ' + total;
+    // Mini title
+    document.getElementById('slideTitleMini').textContent = slides[current].dataset.title || '';
+    // Prev/next buttons
+    document.getElementById('prevBtn').disabled = current === 0;
+    document.getElementById('nextBtn').disabled = current === total - 1;
+    // Progress bar
+    const pct = total > 1 ? (current / (total - 1)) * 100 : 100;
+    document.getElementById('progressFill').style.width = pct + '%';
+    // Dots
+    getDots().forEach((d, i) => d.classList.toggle('active', i === current));
+  }
+
+  // ── Buttons ──
+  document.getElementById('prevBtn').addEventListener('click', () => goTo(current - 1, -1));
+  document.getElementById('nextBtn').addEventListener('click', () => goTo(current + 1,  1));
+
+  // ── Keyboard ──
+  document.addEventListener('keydown', e => {
+    if (e.key === 'ArrowRight' || e.key === 'PageDown') goTo(current + 1,  1);
+    if (e.key === 'ArrowLeft'  || e.key === 'PageUp')   goTo(current - 1, -1);
+    if (e.key === 'Home') goTo(0, -1);
+    if (e.key === 'End')  goTo(total - 1, 1);
+  });
+
+  // ── Touch / Swipe ──
+  let touchStartX = 0;
+  const deck = document.getElementById('deck');
+  deck.addEventListener('touchstart', e => { touchStartX = e.touches[0].clientX; }, { passive: true });
+  deck.addEventListener('touchend',   e => {
+    const dx = touchStartX - e.changedTouches[0].clientX;
+    if (Math.abs(dx) > 50) goTo(dx > 0 ? current + 1 : current - 1, dx > 0 ? 1 : -1);
+  });
+
+  // ── Fullscreen ──
+  document.getElementById('fullscreenBtn').addEventListener('click', () => {
+    if (!document.fullscreenElement) document.documentElement.requestFullscreen?.();
+    else document.exitFullscreen?.();
+  });
+
+  // ── Init ──
+  updateUI();
+</script>
 </body>
 </html>
