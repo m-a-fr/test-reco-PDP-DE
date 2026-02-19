@@ -412,39 +412,77 @@
     .mock-list-item:nth-child(2) { width: 80%; }
     .mock-list-item:nth-child(3) { width: 65%; }
 
-    /* ─── MOCK PRODUCT GRID (Format Liste 4×3) ─── */
+    /* ─── MOCK PRODUCT GRID — style Raja.fr ─── */
+    .mock-raja-bg {
+      background: #f2f4f9;
+      border-radius: 6px;
+      padding: .5rem;
+    }
     .mock-grid {
       display: grid;
       grid-template-columns: repeat(4, 1fr);
-      gap: .35rem;
+      gap: .3rem;
     }
     .mock-grid-card {
       background: #fff;
-      border: 1px solid var(--border);
-      border-radius: 5px;
-      padding: .4rem;
+      border: 1px solid #e0e3ea;
+      border-radius: 3px;
+      padding: .45rem .4rem .35rem;
       display: flex;
       flex-direction: column;
-      gap: .25rem;
+      gap: 0;
     }
     .mock-grid-img {
-      width: 100%; aspect-ratio: 1;
-      border-radius: 3px;
-      background: linear-gradient(135deg, #dde3f0 0%, #c8d2e8 100%);
-      margin-bottom: .1rem;
+      width: 100%;
+      aspect-ratio: 1;
+      background: #f7f8fb;
+      border: 1px solid #eceef4;
+      border-radius: 2px;
+      margin-bottom: .3rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      overflow: hidden;
+    }
+    .mock-grid-img::after {
+      content: '';
+      position: absolute;
+      width: 50%; height: 55%;
+      background: #d8dce8;
+      border-radius: 2px;
     }
     .mock-grid-name {
-      height: 5px; border-radius: 2px;
-      background: #b8c4de; width: 90%;
+      height: 5px; border-radius: 1px;
+      background: #222831; opacity: .25;
+      width: 92%; margin-bottom: .2rem;
+    }
+    .mock-grid-name2 {
+      height: 4px; border-radius: 1px;
+      background: #222831; opacity: .15;
+      width: 68%; margin-bottom: .3rem;
     }
     .mock-grid-ref {
-      height: 4px; border-radius: 2px;
-      background: #d8dff0; width: 60%;
+      height: 3px; border-radius: 1px;
+      background: #656f84; opacity: .35;
+      width: 55%; margin-bottom: .35rem;
+    }
+    .mock-grid-label {
+      height: 3px; border-radius: 1px;
+      background: #656f84; opacity: .25;
+      width: 45%; margin-bottom: .1rem;
     }
     .mock-grid-price {
-      height: 5px; border-radius: 2px;
-      background: #8fa8d8; width: 50%;
-      margin-top: .1rem;
+      height: 6px; border-radius: 1px;
+      background: #276ef1;
+      width: 60%; margin-bottom: .3rem;
+    }
+    .mock-grid-btn {
+      height: 11px;
+      border-radius: 2px;
+      background: linear-gradient(90deg, #276ef1, #6121f5);
+      width: 100%;
+      opacity: .75;
     }
 
     .format-props { list-style: none; display: flex; flex-direction: column; gap: .5rem; }
@@ -1123,13 +1161,13 @@
         <div class="format-badge">🅰 Actuel</div>
         <div class="format-letter">A</div>
         <div class="format-name">Format Carrousel</div>
-        <div class="format-mockup">
-          <div class="mock-label">Simulation visuelle</div>
-          <div class="mock-carousel">
-            <div class="mock-card"></div>
-            <div class="mock-card"></div>
-            <div class="mock-card"></div>
-            <div class="mock-card" style="opacity:.4"></div>
+        <div class="format-mockup mock-raja-bg">
+          <div class="mock-label" style="margin-bottom:.4rem">Simulation visuelle</div>
+          <div class="mock-carousel" style="overflow:hidden;position:relative">
+            <div class="mock-card" style="flex-shrink:0;display:flex;flex-direction:column;gap:.2rem;padding:.35rem;background:#fff;border:1px solid #e0e3ea;border-radius:3px;width:70px;height:auto"><div style="width:100%;aspect-ratio:1;background:#f7f8fb;border:1px solid #eceef4;border-radius:2px;display:flex;align-items:center;justify-content:center"><div style="width:55%;height:55%;background:#d8dce8;border-radius:2px"></div></div><div style="height:4px;border-radius:1px;background:#222831;opacity:.22;width:88%"></div><div style="height:4px;border-radius:1px;background:#222831;opacity:.13;width:62%"></div><div style="height:5px;border-radius:1px;background:#276ef1;width:55%;margin-top:.15rem"></div><div style="height:9px;border-radius:2px;background:linear-gradient(90deg,#276ef1,#6121f5);opacity:.7;margin-top:.15rem"></div></div>
+            <div class="mock-card" style="flex-shrink:0;display:flex;flex-direction:column;gap:.2rem;padding:.35rem;background:#fff;border:1px solid #e0e3ea;border-radius:3px;width:70px;height:auto"><div style="width:100%;aspect-ratio:1;background:#f7f8fb;border:1px solid #eceef4;border-radius:2px;display:flex;align-items:center;justify-content:center"><div style="width:55%;height:55%;background:#d8dce8;border-radius:2px"></div></div><div style="height:4px;border-radius:1px;background:#222831;opacity:.22;width:75%"></div><div style="height:4px;border-radius:1px;background:#222831;opacity:.13;width:50%"></div><div style="height:5px;border-radius:1px;background:#276ef1;width:55%;margin-top:.15rem"></div><div style="height:9px;border-radius:2px;background:linear-gradient(90deg,#276ef1,#6121f5);opacity:.7;margin-top:.15rem"></div></div>
+            <div class="mock-card" style="flex-shrink:0;display:flex;flex-direction:column;gap:.2rem;padding:.35rem;background:#fff;border:1px solid #e0e3ea;border-radius:3px;width:70px;height:auto"><div style="width:100%;aspect-ratio:1;background:#f7f8fb;border:1px solid #eceef4;border-radius:2px;display:flex;align-items:center;justify-content:center"><div style="width:55%;height:55%;background:#d8dce8;border-radius:2px"></div></div><div style="height:4px;border-radius:1px;background:#222831;opacity:.22;width:82%"></div><div style="height:4px;border-radius:1px;background:#222831;opacity:.13;width:58%"></div><div style="height:5px;border-radius:1px;background:#276ef1;width:55%;margin-top:.15rem"></div><div style="height:9px;border-radius:2px;background:linear-gradient(90deg,#276ef1,#6121f5);opacity:.7;margin-top:.15rem"></div></div>
+            <div class="mock-card" style="flex-shrink:0;display:flex;flex-direction:column;gap:.2rem;padding:.35rem;background:#fff;border:1px solid #e0e3ea;border-radius:3px;width:70px;height:auto;opacity:.35"><div style="width:100%;aspect-ratio:1;background:#f7f8fb;border:1px solid #eceef4;border-radius:2px;display:flex;align-items:center;justify-content:center"><div style="width:55%;height:55%;background:#d8dce8;border-radius:2px"></div></div><div style="height:4px;border-radius:1px;background:#222831;opacity:.22;width:70%"></div><div style="height:4px;border-radius:1px;background:#222831;opacity:.13;width:48%"></div><div style="height:5px;border-radius:1px;background:#276ef1;width:55%;margin-top:.15rem"></div><div style="height:9px;border-radius:2px;background:linear-gradient(90deg,#276ef1,#6121f5);opacity:.7;margin-top:.15rem"></div></div>
           </div>
         </div>
         <ul class="format-props">
@@ -1144,21 +1182,21 @@
         <div class="format-badge">🅱 Concept</div>
         <div class="format-letter">B</div>
         <div class="format-name">Format Liste <span style="font-size:.8rem;font-weight:500;color:var(--text-muted)">(Listenformat)</span></div>
-        <div class="format-mockup">
-          <div class="mock-label">Simulation visuelle — 4 × 3 cards</div>
+        <div class="format-mockup mock-raja-bg">
+          <div class="mock-label" style="margin-bottom:.4rem">Simulation visuelle — 4 × 3</div>
           <div class="mock-grid">
-            <div class="mock-grid-card"><div class="mock-grid-img"></div><div class="mock-grid-name"></div><div class="mock-grid-ref"></div><div class="mock-grid-price"></div></div>
-            <div class="mock-grid-card"><div class="mock-grid-img" style="background:linear-gradient(135deg,#e0ddf0,#ccc8e8)"></div><div class="mock-grid-name" style="width:75%"></div><div class="mock-grid-ref" style="width:50%"></div><div class="mock-grid-price"></div></div>
-            <div class="mock-grid-card"><div class="mock-grid-img" style="background:linear-gradient(135deg,#ddeee8,#c8e0d8)"></div><div class="mock-grid-name" style="width:85%"></div><div class="mock-grid-ref" style="width:65%"></div><div class="mock-grid-price"></div></div>
-            <div class="mock-grid-card"><div class="mock-grid-img" style="background:linear-gradient(135deg,#fdf0e0,#f0dcc8)"></div><div class="mock-grid-name" style="width:70%"></div><div class="mock-grid-ref" style="width:45%"></div><div class="mock-grid-price"></div></div>
-            <div class="mock-grid-card"><div class="mock-grid-img" style="background:linear-gradient(135deg,#e8f0fd,#d0e0f8)"></div><div class="mock-grid-name"></div><div class="mock-grid-ref" style="width:55%"></div><div class="mock-grid-price"></div></div>
-            <div class="mock-grid-card"><div class="mock-grid-img"></div><div class="mock-grid-name" style="width:80%"></div><div class="mock-grid-ref"></div><div class="mock-grid-price"></div></div>
-            <div class="mock-grid-card"><div class="mock-grid-img" style="background:linear-gradient(135deg,#f0e8fd,#dcd0f8)"></div><div class="mock-grid-name" style="width:90%"></div><div class="mock-grid-ref" style="width:60%"></div><div class="mock-grid-price"></div></div>
-            <div class="mock-grid-card"><div class="mock-grid-img" style="background:linear-gradient(135deg,#e8fdf0,#c8f0d8)"></div><div class="mock-grid-name" style="width:72%"></div><div class="mock-grid-ref" style="width:48%"></div><div class="mock-grid-price"></div></div>
-            <div class="mock-grid-card"><div class="mock-grid-img" style="background:linear-gradient(135deg,#fde8e8,#f0c8c8)"></div><div class="mock-grid-name"></div><div class="mock-grid-ref" style="width:55%"></div><div class="mock-grid-price"></div></div>
-            <div class="mock-grid-card"><div class="mock-grid-img" style="background:linear-gradient(135deg,#e0ddf0,#ccc8e8)"></div><div class="mock-grid-name" style="width:78%"></div><div class="mock-grid-ref" style="width:42%"></div><div class="mock-grid-price"></div></div>
-            <div class="mock-grid-card"><div class="mock-grid-img" style="background:linear-gradient(135deg,#ddeee8,#c8e0d8)"></div><div class="mock-grid-name" style="width:85%"></div><div class="mock-grid-ref"></div><div class="mock-grid-price"></div></div>
-            <div class="mock-grid-card"><div class="mock-grid-img"></div><div class="mock-grid-name" style="width:68%"></div><div class="mock-grid-ref" style="width:52%"></div><div class="mock-grid-price"></div></div>
+            <div class="mock-grid-card"><div class="mock-grid-img"></div><div class="mock-grid-name"></div><div class="mock-grid-name2"></div><div class="mock-grid-ref"></div><div class="mock-grid-label"></div><div class="mock-grid-price"></div><div class="mock-grid-btn"></div></div>
+            <div class="mock-grid-card"><div class="mock-grid-img"></div><div class="mock-grid-name" style="width:80%"></div><div class="mock-grid-name2" style="width:55%"></div><div class="mock-grid-ref" style="width:48%"></div><div class="mock-grid-label"></div><div class="mock-grid-price"></div><div class="mock-grid-btn"></div></div>
+            <div class="mock-grid-card"><div class="mock-grid-img"></div><div class="mock-grid-name" style="width:88%"></div><div class="mock-grid-name2" style="width:60%"></div><div class="mock-grid-ref" style="width:52%"></div><div class="mock-grid-label"></div><div class="mock-grid-price" style="width:55%"></div><div class="mock-grid-btn"></div></div>
+            <div class="mock-grid-card"><div class="mock-grid-img"></div><div class="mock-grid-name" style="width:75%"></div><div class="mock-grid-name2" style="width:50%"></div><div class="mock-grid-ref" style="width:44%"></div><div class="mock-grid-label"></div><div class="mock-grid-price"></div><div class="mock-grid-btn"></div></div>
+            <div class="mock-grid-card"><div class="mock-grid-img"></div><div class="mock-grid-name"></div><div class="mock-grid-name2" style="width:65%"></div><div class="mock-grid-ref" style="width:58%"></div><div class="mock-grid-label"></div><div class="mock-grid-price" style="width:52%"></div><div class="mock-grid-btn"></div></div>
+            <div class="mock-grid-card"><div class="mock-grid-img"></div><div class="mock-grid-name" style="width:84%"></div><div class="mock-grid-name2"></div><div class="mock-grid-ref" style="width:46%"></div><div class="mock-grid-label"></div><div class="mock-grid-price"></div><div class="mock-grid-btn"></div></div>
+            <div class="mock-grid-card"><div class="mock-grid-img"></div><div class="mock-grid-name" style="width:90%"></div><div class="mock-grid-name2" style="width:62%"></div><div class="mock-grid-ref" style="width:50%"></div><div class="mock-grid-label"></div><div class="mock-grid-price" style="width:58%"></div><div class="mock-grid-btn"></div></div>
+            <div class="mock-grid-card"><div class="mock-grid-img"></div><div class="mock-grid-name" style="width:72%"></div><div class="mock-grid-name2" style="width:48%"></div><div class="mock-grid-ref" style="width:54%"></div><div class="mock-grid-label"></div><div class="mock-grid-price"></div><div class="mock-grid-btn"></div></div>
+            <div class="mock-grid-card"><div class="mock-grid-img"></div><div class="mock-grid-name"></div><div class="mock-grid-name2" style="width:56%"></div><div class="mock-grid-ref" style="width:42%"></div><div class="mock-grid-label"></div><div class="mock-grid-price" style="width:50%"></div><div class="mock-grid-btn"></div></div>
+            <div class="mock-grid-card"><div class="mock-grid-img"></div><div class="mock-grid-name" style="width:78%"></div><div class="mock-grid-name2" style="width:58%"></div><div class="mock-grid-ref" style="width:47%"></div><div class="mock-grid-label"></div><div class="mock-grid-price"></div><div class="mock-grid-btn"></div></div>
+            <div class="mock-grid-card"><div class="mock-grid-img"></div><div class="mock-grid-name" style="width:86%"></div><div class="mock-grid-name2"></div><div class="mock-grid-ref" style="width:52%"></div><div class="mock-grid-label"></div><div class="mock-grid-price" style="width:62%"></div><div class="mock-grid-btn"></div></div>
+            <div class="mock-grid-card"><div class="mock-grid-img"></div><div class="mock-grid-name" style="width:68%"></div><div class="mock-grid-name2" style="width:44%"></div><div class="mock-grid-ref" style="width:56%"></div><div class="mock-grid-label"></div><div class="mock-grid-price"></div><div class="mock-grid-btn"></div></div>
           </div>
         </div>
         <ul class="format-props">
