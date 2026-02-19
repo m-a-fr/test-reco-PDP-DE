@@ -1,0 +1,1553 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>User Test — Recommandations Produit · Validation Équipe Produit</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #F6F7FB;
+      --surface: #FFFFFF;
+      --surface-2: #F0F2F8;
+      --border: #E2E6EF;
+      --text-primary: #0D1117;
+      --text-secondary: #5A6480;
+      --text-muted: #8B93A8;
+      --blue: #2563EB;
+      --blue-light: #EFF4FF;
+      --blue-mid: #BFCFFE;
+      --purple: #7C3AED;
+      --purple-light: #F3EFFE;
+      --green: #059669;
+      --green-light: #ECFDF5;
+      --amber: #D97706;
+      --amber-light: #FFFBEB;
+      --red: #DC2626;
+      --red-light: #FEF2F2;
+      --slate: #334155;
+      --radius: 12px;
+      --radius-lg: 20px;
+      --shadow: 0 1px 3px rgba(0,0,0,.06), 0 4px 16px rgba(0,0,0,.04);
+      --shadow-md: 0 4px 12px rgba(0,0,0,.08), 0 12px 40px rgba(0,0,0,.06);
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Inter', system-ui, sans-serif;
+      background: var(--bg);
+      color: var(--text-primary);
+      line-height: 1.6;
+      font-size: 15px;
+    }
+
+    /* ─── NAV ─── */
+    nav {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(255,255,255,.85);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+      padding: 0 2rem;
+    }
+    .nav-inner {
+      max-width: 1100px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 56px;
+      gap: 1rem;
+    }
+    .nav-brand {
+      display: flex;
+      align-items: center;
+      gap: .6rem;
+      font-weight: 700;
+      font-size: .95rem;
+      color: var(--text-primary);
+      text-decoration: none;
+    }
+    .nav-badge {
+      font-size: .72rem;
+      font-weight: 600;
+      padding: .2rem .6rem;
+      border-radius: 20px;
+      background: var(--blue);
+      color: #fff;
+      letter-spacing: .04em;
+      text-transform: uppercase;
+    }
+    .nav-links {
+      display: flex;
+      gap: 1.5rem;
+      list-style: none;
+    }
+    .nav-links a {
+      font-size: .83rem;
+      font-weight: 500;
+      color: var(--text-secondary);
+      text-decoration: none;
+      transition: color .15s;
+    }
+    .nav-links a:hover { color: var(--blue); }
+    .nav-cta {
+      font-size: .83rem;
+      font-weight: 600;
+      padding: .45rem 1.1rem;
+      border-radius: 8px;
+      background: var(--blue);
+      color: #fff;
+      text-decoration: none;
+      transition: background .15s, box-shadow .15s;
+      white-space: nowrap;
+    }
+    .nav-cta:hover { background: #1d4ed8; box-shadow: 0 4px 14px rgba(37,99,235,.35); }
+
+    /* ─── LAYOUT ─── */
+    .container {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0 2rem;
+    }
+
+    section { padding: 5rem 0; }
+    section:first-of-type { padding-top: 2rem; }
+
+    /* ─── HERO ─── */
+    .hero {
+      padding: 5rem 0 4rem;
+      position: relative;
+      overflow: hidden;
+    }
+    .hero::before {
+      content: '';
+      position: absolute;
+      top: -120px; right: -200px;
+      width: 700px; height: 700px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(37,99,235,.07) 0%, transparent 70%);
+      pointer-events: none;
+    }
+    .hero-eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: .5rem;
+      font-size: .78rem;
+      font-weight: 600;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      color: var(--blue);
+      background: var(--blue-light);
+      border: 1px solid var(--blue-mid);
+      padding: .35rem .9rem;
+      border-radius: 20px;
+      margin-bottom: 1.5rem;
+    }
+    .hero-eyebrow::before { content: '●'; font-size: .5rem; }
+    h1 {
+      font-size: clamp(2rem, 4vw, 3rem);
+      font-weight: 800;
+      line-height: 1.15;
+      letter-spacing: -.03em;
+      margin-bottom: 1.25rem;
+      max-width: 780px;
+    }
+    h1 em {
+      font-style: normal;
+      background: linear-gradient(135deg, var(--blue), var(--purple));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .hero-sub {
+      font-size: 1.1rem;
+      color: var(--text-secondary);
+      max-width: 620px;
+      margin-bottom: 2.5rem;
+      line-height: 1.7;
+    }
+    .hero-stats {
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+    .stat-pill {
+      display: flex;
+      align-items: center;
+      gap: .6rem;
+      padding: .6rem 1.1rem;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      font-size: .85rem;
+      font-weight: 500;
+      color: var(--text-secondary);
+      box-shadow: var(--shadow);
+    }
+    .stat-pill strong { color: var(--text-primary); font-weight: 700; }
+    .stat-pill .icon { font-size: 1rem; }
+
+    /* ─── SECTION HEADERS ─── */
+    .section-label {
+      display: inline-flex;
+      align-items: center;
+      gap: .5rem;
+      font-size: .75rem;
+      font-weight: 700;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      margin-bottom: .75rem;
+    }
+    .section-label .num {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: .7rem;
+      background: var(--surface-2);
+      border: 1px solid var(--border);
+      padding: .1rem .4rem;
+      border-radius: 4px;
+    }
+    h2 {
+      font-size: 1.65rem;
+      font-weight: 800;
+      letter-spacing: -.025em;
+      margin-bottom: .5rem;
+    }
+    .section-intro {
+      color: var(--text-secondary);
+      font-size: 1rem;
+      max-width: 620px;
+      margin-bottom: 2.5rem;
+    }
+
+    /* ─── CARDS ─── */
+    .card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 1.75rem;
+      box-shadow: var(--shadow);
+    }
+    .card-grid { display: grid; gap: 1.25rem; }
+    .card-grid-2 { grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); }
+    .card-grid-3 { grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); }
+
+    /* ─── CONTEXT ─── */
+    .context-layout {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.5rem;
+    }
+    @media (max-width: 700px) { .context-layout { grid-template-columns: 1fr; } }
+
+    .context-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 1.75rem;
+      box-shadow: var(--shadow);
+    }
+    .context-card h3 {
+      font-size: .85rem;
+      font-weight: 700;
+      letter-spacing: .05em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      margin-bottom: 1rem;
+    }
+    .status-today {
+      display: flex;
+      flex-direction: column;
+      gap: .75rem;
+    }
+    .status-item {
+      display: flex;
+      align-items: flex-start;
+      gap: .75rem;
+      font-size: .9rem;
+    }
+    .status-icon {
+      width: 28px; height: 28px;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: .9rem;
+      flex-shrink: 0;
+    }
+    .bg-blue { background: var(--blue-light); }
+    .bg-amber { background: var(--amber-light); }
+    .bg-green { background: var(--green-light); }
+    .bg-purple { background: var(--purple-light); }
+    .bg-red { background: var(--red-light); }
+
+    .hypothesis-box {
+      margin-top: 1.25rem;
+      padding: 1.1rem 1.25rem;
+      background: linear-gradient(135deg, var(--blue-light), var(--purple-light));
+      border: 1px solid var(--blue-mid);
+      border-radius: var(--radius);
+    }
+    .hypothesis-box .label {
+      font-size: .72rem;
+      font-weight: 700;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      color: var(--blue);
+      margin-bottom: .4rem;
+    }
+    .hypothesis-box p {
+      font-size: .92rem;
+      font-weight: 500;
+      color: var(--text-primary);
+      line-height: 1.5;
+    }
+
+    /* ─── OBJECTIVES ─── */
+    .obj-card {
+      border-radius: var(--radius-lg);
+      padding: 2rem;
+      box-shadow: var(--shadow);
+      border: 1px solid transparent;
+    }
+    .obj-card.business {
+      background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%);
+      border-color: #bfdbfe;
+    }
+    .obj-card.research {
+      background: linear-gradient(135deg, #f3effe 0%, #ede9fe 100%);
+      border-color: #ddd6fe;
+    }
+    .obj-icon {
+      font-size: 2rem;
+      margin-bottom: 1rem;
+    }
+    .obj-card h3 {
+      font-size: 1.15rem;
+      font-weight: 700;
+      margin-bottom: .6rem;
+    }
+    .obj-card p { font-size: .92rem; color: var(--text-secondary); line-height: 1.6; }
+    .obj-card .obj-tag {
+      display: inline-block;
+      margin-bottom: .75rem;
+      font-size: .7rem;
+      font-weight: 700;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      padding: .2rem .6rem;
+      border-radius: 4px;
+    }
+    .business .obj-tag { background: #bfdbfe; color: #1e40af; }
+    .research .obj-tag { background: #ddd6fe; color: #5b21b6; }
+
+    /* ─── FORMAT COMPARISON ─── */
+    .format-compare {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.5rem;
+    }
+    @media (max-width: 680px) { .format-compare { grid-template-columns: 1fr; } }
+
+    .format-card {
+      border-radius: var(--radius-lg);
+      padding: 1.75rem;
+      border: 2px solid var(--border);
+      background: var(--surface);
+      box-shadow: var(--shadow);
+      position: relative;
+    }
+    .format-card.current { border-color: #fbbf24; }
+    .format-card.concept { border-color: var(--purple); }
+
+    .format-badge {
+      position: absolute;
+      top: -12px; left: 1.5rem;
+      font-size: .7rem;
+      font-weight: 700;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      padding: .25rem .7rem;
+      border-radius: 20px;
+    }
+    .format-card.current .format-badge { background: #fbbf24; color: #78350f; }
+    .format-card.concept .format-badge { background: var(--purple); color: #fff; }
+
+    .format-letter {
+      font-size: 2.5rem;
+      font-weight: 800;
+      margin-bottom: .25rem;
+      line-height: 1;
+    }
+    .format-card.current .format-letter { color: #d97706; }
+    .format-card.concept .format-letter { color: var(--purple); }
+
+    .format-name {
+      font-size: 1.1rem;
+      font-weight: 700;
+      margin-bottom: 1rem;
+    }
+    .format-mockup {
+      background: var(--surface-2);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 1rem;
+      margin-bottom: 1rem;
+      min-height: 100px;
+      display: flex;
+      flex-direction: column;
+      gap: .4rem;
+    }
+    .mock-label { font-size: .65rem; font-weight: 600; color: var(--text-muted); letter-spacing: .06em; text-transform: uppercase; margin-bottom: .3rem; }
+    .mock-carousel { display: flex; gap: .4rem; }
+    .mock-card { width: 55px; height: 65px; border-radius: 6px; background: var(--border); flex-shrink: 0; }
+    .mock-list-item { height: 22px; border-radius: 5px; background: var(--border); }
+    .mock-list-item:nth-child(2) { width: 80%; }
+    .mock-list-item:nth-child(3) { width: 65%; }
+
+    .format-props { list-style: none; display: flex; flex-direction: column; gap: .5rem; }
+    .format-props li {
+      display: flex;
+      align-items: flex-start;
+      gap: .6rem;
+      font-size: .87rem;
+      color: var(--text-secondary);
+    }
+    .format-props li::before { content: '→'; font-weight: 700; color: var(--text-muted); flex-shrink: 0; }
+
+    /* ─── HYPOTHESES ─── */
+    .hyp-cards { display: flex; flex-direction: column; gap: 1rem; }
+    .hyp-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1.4rem 1.6rem;
+      box-shadow: var(--shadow);
+      display: flex;
+      gap: 1.25rem;
+      align-items: flex-start;
+    }
+    .hyp-id {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: .78rem;
+      font-weight: 700;
+      color: #fff;
+      background: var(--blue);
+      padding: .3rem .6rem;
+      border-radius: 6px;
+      flex-shrink: 0;
+      letter-spacing: .04em;
+    }
+    .hyp-card:nth-child(2) .hyp-id { background: var(--purple); }
+    .hyp-card:nth-child(3) .hyp-id { background: var(--amber); }
+    .hyp-text { font-size: .95rem; font-weight: 500; color: var(--text-primary); line-height: 1.5; }
+    .hyp-sub { font-size: .83rem; color: var(--text-secondary); margin-top: .3rem; }
+
+    /* ─── TARGET ─── */
+    .target-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1rem;
+    }
+    .target-item {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1.25rem;
+      box-shadow: var(--shadow);
+      text-align: center;
+    }
+    .target-item .t-icon { font-size: 2rem; margin-bottom: .6rem; }
+    .target-item p { font-size: .87rem; font-weight: 500; color: var(--text-secondary); line-height: 1.5; }
+
+    /* ─── METHODOLOGY ─── */
+    .method-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 1rem;
+    }
+    .method-item {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1.25rem;
+      box-shadow: var(--shadow);
+    }
+    .method-key {
+      font-size: .72rem;
+      font-weight: 700;
+      letter-spacing: .07em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      margin-bottom: .35rem;
+    }
+    .method-val {
+      font-size: .95rem;
+      font-weight: 600;
+      color: var(--text-primary);
+    }
+    .method-val.accent { color: var(--blue); }
+
+    /* ─── MEASURES ─── */
+    .measures-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.5rem;
+    }
+    @media (max-width: 680px) { .measures-grid { grid-template-columns: 1fr; } }
+
+    .measures-block {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 1.75rem;
+      box-shadow: var(--shadow);
+    }
+    .measures-block h3 {
+      font-size: .85rem;
+      font-weight: 700;
+      letter-spacing: .06em;
+      text-transform: uppercase;
+      margin-bottom: 1.1rem;
+      display: flex;
+      align-items: center;
+      gap: .5rem;
+    }
+    .measures-block h3.quant { color: var(--blue); }
+    .measures-block h3.qual { color: var(--purple); }
+
+    .measure-list { list-style: none; display: flex; flex-direction: column; gap: .6rem; }
+    .measure-list li {
+      display: flex;
+      align-items: flex-start;
+      gap: .75rem;
+      font-size: .88rem;
+      color: var(--text-secondary);
+      padding-bottom: .6rem;
+      border-bottom: 1px solid var(--surface-2);
+    }
+    .measure-list li:last-child { border-bottom: none; padding-bottom: 0; }
+    .measure-dot {
+      width: 6px; height: 6px;
+      border-radius: 50%;
+      margin-top: .55em;
+      flex-shrink: 0;
+    }
+    .quant .measure-dot { background: var(--blue); }
+    .qual .measure-dot { background: var(--purple); }
+
+    /* ─── KPIs ─── */
+    .kpi-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1rem;
+    }
+    .kpi-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1.4rem;
+      box-shadow: var(--shadow);
+    }
+    .kpi-card .kpi-label {
+      font-size: .78rem;
+      font-weight: 600;
+      color: var(--text-muted);
+      margin-bottom: .5rem;
+    }
+    .kpi-card .kpi-name {
+      font-size: .92rem;
+      font-weight: 600;
+      color: var(--text-primary);
+      line-height: 1.4;
+    }
+    .kpi-bar {
+      margin-top: .75rem;
+      height: 4px;
+      border-radius: 2px;
+      background: var(--surface-2);
+      overflow: hidden;
+    }
+    .kpi-bar-fill {
+      height: 100%;
+      border-radius: 2px;
+    }
+    .kpi-card:nth-child(1) .kpi-bar-fill { width: 85%; background: var(--blue); }
+    .kpi-card:nth-child(2) .kpi-bar-fill { width: 70%; background: var(--purple); }
+    .kpi-card:nth-child(3) .kpi-bar-fill { width: 60%; background: var(--green); }
+    .kpi-card:nth-child(4) .kpi-bar-fill { width: 45%; background: var(--amber); }
+    .kpi-card:nth-child(5) .kpi-bar-fill { width: 90%; background: var(--blue); }
+
+    /* ─── SCOPE ─── */
+    .scope-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.5rem;
+    }
+    @media (max-width: 680px) { .scope-grid { grid-template-columns: 1fr; } }
+
+    .scope-block {
+      border-radius: var(--radius-lg);
+      padding: 1.75rem;
+      box-shadow: var(--shadow);
+    }
+    .scope-block.will { background: var(--green-light); border: 1px solid #a7f3d0; }
+    .scope-block.wont { background: var(--red-light); border: 1px solid #fecaca; }
+
+    .scope-block h3 {
+      font-size: .85rem;
+      font-weight: 700;
+      letter-spacing: .06em;
+      text-transform: uppercase;
+      margin-bottom: 1rem;
+    }
+    .scope-block.will h3 { color: var(--green); }
+    .scope-block.wont h3 { color: var(--red); }
+
+    .scope-list { list-style: none; display: flex; flex-direction: column; gap: .65rem; }
+    .scope-list li {
+      display: flex;
+      align-items: flex-start;
+      gap: .75rem;
+      font-size: .88rem;
+      color: var(--text-secondary);
+      line-height: 1.5;
+    }
+    .scope-check { font-size: 1rem; flex-shrink: 0; }
+
+    /* ─── RATIONALE ─── */
+    .rationale-card {
+      background: linear-gradient(135deg, #0f172a 0%, #1e1b4b 100%);
+      color: #fff;
+      border-radius: var(--radius-lg);
+      padding: 2.5rem;
+      box-shadow: var(--shadow-md);
+      position: relative;
+      overflow: hidden;
+    }
+    .rationale-card::before {
+      content: '"';
+      position: absolute;
+      top: -1rem; right: 2rem;
+      font-size: 12rem;
+      font-weight: 800;
+      opacity: .05;
+      line-height: 1;
+    }
+    .rationale-card h3 { font-size: 1.25rem; font-weight: 700; margin-bottom: 1rem; }
+    .rationale-card p { color: rgba(255,255,255,.7); line-height: 1.7; font-size: .95rem; margin-bottom: .75rem; }
+    .rationale-list { list-style: none; display: grid; grid-template-columns: 1fr 1fr; gap: .75rem; margin-top: 1.5rem; }
+    @media (max-width: 680px) { .rationale-list { grid-template-columns: 1fr; } }
+    .rationale-list li {
+      display: flex;
+      align-items: flex-start;
+      gap: .6rem;
+      font-size: .87rem;
+      color: rgba(255,255,255,.8);
+      background: rgba(255,255,255,.06);
+      border: 1px solid rgba(255,255,255,.1);
+      border-radius: 10px;
+      padding: .75rem 1rem;
+    }
+    .rationale-list li .r-icon { font-size: 1rem; flex-shrink: 0; }
+
+    /* ─── RISKS ─── */
+    .risk-grid { display: flex; flex-direction: column; gap: 1rem; }
+    .risk-row {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1.25rem 1.5rem;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+      box-shadow: var(--shadow);
+    }
+    @media (max-width: 680px) { .risk-row { grid-template-columns: 1fr; } }
+    .risk-item h4 { font-size: .75rem; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; margin-bottom: .35rem; }
+    .risk-item.danger h4 { color: var(--red); }
+    .risk-item.mitigation h4 { color: var(--green); }
+    .risk-item p { font-size: .87rem; color: var(--text-secondary); line-height: 1.5; }
+
+    /* ─── SAMPLE ─── */
+    .sample-card {
+      background: var(--surface);
+      border: 2px solid var(--blue-mid);
+      border-radius: var(--radius-lg);
+      padding: 2rem;
+      box-shadow: var(--shadow);
+      display: flex;
+      align-items: center;
+      gap: 2rem;
+    }
+    @media (max-width: 580px) { .sample-card { flex-direction: column; text-align: center; } }
+    .sample-num {
+      font-size: 4rem;
+      font-weight: 800;
+      color: var(--blue);
+      line-height: 1;
+      flex-shrink: 0;
+    }
+    .sample-num span { font-size: 2rem; color: var(--text-muted); }
+    .sample-text h3 { font-size: 1.1rem; font-weight: 700; margin-bottom: .4rem; }
+    .sample-text p { font-size: .9rem; color: var(--text-secondary); }
+
+    /* ─── ROADMAP ─── */
+    .roadmap {
+      display: flex;
+      gap: 0;
+      position: relative;
+    }
+    .roadmap::before {
+      content: '';
+      position: absolute;
+      top: 24px; left: 24px; right: 24px;
+      height: 2px;
+      background: linear-gradient(to right, var(--blue), var(--purple), var(--green));
+    }
+    @media (max-width: 680px) {
+      .roadmap { flex-direction: column; }
+      .roadmap::before { top: 24px; bottom: 24px; left: 24px; right: auto; width: 2px; height: auto; }
+    }
+    .roadmap-step {
+      flex: 1;
+      padding-top: 3.5rem;
+      padding-right: 1rem;
+      position: relative;
+    }
+    .roadmap-step:last-child { padding-right: 0; }
+    @media (max-width: 680px) {
+      .roadmap-step { padding-top: 0; padding-left: 3.5rem; padding-right: 0; padding-bottom: 1.5rem; }
+    }
+    .roadmap-dot {
+      position: absolute;
+      top: 12px; left: 0;
+      width: 24px; height: 24px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: .7rem;
+      font-weight: 700;
+      color: #fff;
+      z-index: 1;
+    }
+    @media (max-width: 680px) { .roadmap-dot { top: 0; left: 0; } }
+    .roadmap-step:nth-child(1) .roadmap-dot { background: var(--blue); }
+    .roadmap-step:nth-child(2) .roadmap-dot { background: #6366f1; }
+    .roadmap-step:nth-child(3) .roadmap-dot { background: var(--purple); }
+    .roadmap-step:nth-child(4) .roadmap-dot { background: var(--green); }
+
+    .roadmap-step h4 { font-size: .9rem; font-weight: 700; margin-bottom: .35rem; }
+    .roadmap-step p { font-size: .82rem; color: var(--text-secondary); line-height: 1.5; }
+    .roadmap-step .step-tag {
+      display: inline-block;
+      font-size: .68rem;
+      font-weight: 600;
+      letter-spacing: .05em;
+      text-transform: uppercase;
+      padding: .15rem .5rem;
+      border-radius: 4px;
+      background: var(--surface-2);
+      color: var(--text-muted);
+      margin-bottom: .5rem;
+    }
+
+    /* ─── IF/THEN ─── */
+    .ifthen-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.5rem;
+    }
+    @media (max-width: 680px) { .ifthen-grid { grid-template-columns: 1fr; } }
+
+    .ifthen-card {
+      border-radius: var(--radius-lg);
+      padding: 1.75rem;
+      box-shadow: var(--shadow);
+      border: 1px solid transparent;
+    }
+    .ifthen-card.yes { background: var(--green-light); border-color: #a7f3d0; }
+    .ifthen-card.no { background: var(--amber-light); border-color: #fde68a; }
+    .ifthen-card h3 {
+      font-size: .85rem;
+      font-weight: 700;
+      letter-spacing: .06em;
+      text-transform: uppercase;
+      margin-bottom: 1rem;
+    }
+    .ifthen-card.yes h3 { color: var(--green); }
+    .ifthen-card.no h3 { color: var(--amber); }
+
+    .ifthen-condition {
+      font-size: .92rem;
+      font-weight: 600;
+      color: var(--text-primary);
+      padding: .75rem 1rem;
+      border-radius: 8px;
+      margin-bottom: .75rem;
+    }
+    .ifthen-card.yes .ifthen-condition { background: rgba(5,150,105,.08); }
+    .ifthen-card.no .ifthen-condition { background: rgba(217,119,6,.08); }
+
+    .ifthen-actions { list-style: none; display: flex; flex-direction: column; gap: .5rem; }
+    .ifthen-actions li {
+      font-size: .87rem;
+      color: var(--text-secondary);
+      display: flex;
+      align-items: flex-start;
+      gap: .6rem;
+    }
+    .ifthen-actions li::before { content: '→'; font-weight: 700; flex-shrink: 0; }
+    .ifthen-card.yes .ifthen-actions li::before { color: var(--green); }
+    .ifthen-card.no .ifthen-actions li::before { color: var(--amber); }
+
+    /* ─── EXCLUSIONS ─── */
+    .exclusion-card {
+      background: var(--surface-2);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1.5rem;
+      display: flex;
+      gap: 1rem;
+      align-items: flex-start;
+    }
+    .exclusion-icon { font-size: 1.75rem; flex-shrink: 0; }
+    .exclusion-card h4 { font-size: .92rem; font-weight: 700; margin-bottom: .35rem; }
+    .exclusion-card p { font-size: .87rem; color: var(--text-secondary); line-height: 1.5; }
+
+    /* ─── CTA / DECISION ─── */
+    .cta-section {
+      background: linear-gradient(135deg, #1e3a5f 0%, #1e1b4b 60%, #2d1b69 100%);
+      color: #fff;
+      border-radius: var(--radius-lg);
+      padding: 3rem;
+      box-shadow: 0 20px 60px rgba(0,0,0,.2);
+      text-align: center;
+      margin: 0 0 5rem;
+      position: relative;
+      overflow: hidden;
+    }
+    .cta-section::before {
+      content: '';
+      position: absolute;
+      top: -50%; left: -50%;
+      width: 200%; height: 200%;
+      background: radial-gradient(circle at 60% 40%, rgba(124,58,237,.2) 0%, transparent 50%);
+      pointer-events: none;
+    }
+    .cta-section h2 {
+      font-size: 1.8rem;
+      font-weight: 800;
+      letter-spacing: -.02em;
+      margin-bottom: .75rem;
+    }
+    .cta-section p {
+      color: rgba(255,255,255,.65);
+      max-width: 540px;
+      margin: 0 auto 2.5rem;
+      line-height: 1.6;
+    }
+    .cta-items {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 1rem;
+      margin-bottom: 2.5rem;
+    }
+    .cta-item {
+      display: flex;
+      align-items: center;
+      gap: .6rem;
+      padding: .75rem 1.25rem;
+      background: rgba(255,255,255,.08);
+      border: 1px solid rgba(255,255,255,.15);
+      border-radius: 10px;
+      font-size: .88rem;
+      font-weight: 500;
+      color: rgba(255,255,255,.9);
+      backdrop-filter: blur(4px);
+    }
+    .cta-item .ci-check {
+      width: 20px; height: 20px;
+      border-radius: 50%;
+      background: rgba(5,150,105,.3);
+      border: 1px solid rgba(5,150,105,.5);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: .7rem;
+      flex-shrink: 0;
+    }
+    .cta-buttons {
+      display: flex;
+      justify-content: center;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+    .btn-primary {
+      display: inline-flex;
+      align-items: center;
+      gap: .5rem;
+      padding: .85rem 2rem;
+      background: #fff;
+      color: #1e1b4b;
+      font-weight: 700;
+      font-size: .95rem;
+      border-radius: 10px;
+      border: none;
+      cursor: pointer;
+      text-decoration: none;
+      transition: transform .15s, box-shadow .15s;
+      box-shadow: 0 4px 20px rgba(0,0,0,.2);
+    }
+    .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 30px rgba(0,0,0,.3); }
+    .btn-secondary {
+      display: inline-flex;
+      align-items: center;
+      gap: .5rem;
+      padding: .85rem 2rem;
+      background: transparent;
+      color: rgba(255,255,255,.85);
+      font-weight: 600;
+      font-size: .95rem;
+      border-radius: 10px;
+      border: 1px solid rgba(255,255,255,.25);
+      cursor: pointer;
+      text-decoration: none;
+      transition: background .15s, border-color .15s;
+    }
+    .btn-secondary:hover { background: rgba(255,255,255,.08); border-color: rgba(255,255,255,.4); }
+
+    /* ─── DIVIDER ─── */
+    .divider {
+      border: none;
+      border-top: 1px solid var(--border);
+      margin: 0;
+    }
+
+    /* ─── FOOTER ─── */
+    footer {
+      padding: 1.5rem 2rem;
+      text-align: center;
+      font-size: .8rem;
+      color: var(--text-muted);
+      border-top: 1px solid var(--border);
+    }
+
+    /* ─── UTILITIES ─── */
+    .mt-1 { margin-top: .5rem; }
+    .mt-2 { margin-top: 1rem; }
+    .mt-3 { margin-top: 1.5rem; }
+
+    /* ─── RESPONSIVE NAV ─── */
+    @media (max-width: 768px) {
+      .nav-links { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-inner">
+    <a class="nav-brand" href="#">
+      <span>User Test · Reco Produit</span>
+      <span class="nav-badge">Validation</span>
+    </a>
+    <ul class="nav-links">
+      <li><a href="#contexte">Contexte</a></li>
+      <li><a href="#hypotheses">Hypothèses</a></li>
+      <li><a href="#methodo">Méthodo</a></li>
+      <li><a href="#kpis">KPIs</a></li>
+      <li><a href="#decision">Décision</a></li>
+    </ul>
+    <a href="#decision" class="nav-cta">→ Valider le test</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<div class="container">
+  <section class="hero">
+    <div class="hero-eyebrow">User Research · Marché Allemand B2B</div>
+    <h1>Carrousel vs. Liste :<br/>quel format pour les <em>recommandations produit</em> ?</h1>
+    <p class="hero-sub">
+      Test utilisateur non modéré pour comprendre les mécanismes perceptifs avant tout A/B test live — et réduire le risque avant déploiement.
+    </p>
+    <div class="hero-stats">
+      <div class="stat-pill"><span class="icon">🎯</span> <span><strong>n ≈ 50</strong> participants</span></div>
+      <div class="stat-pill"><span class="icon">⏱</span> <span><strong>15–20 min</strong> par session</span></div>
+      <div class="stat-pill"><span class="icon">📍</span> <span><strong>UserTesting</strong> · Non modéré</span></div>
+      <div class="stat-pill"><span class="icon">📅</span> <span><strong>≈ 2 semaines</strong> incl. analyse</span></div>
+      <div class="stat-pill"><span class="icon">🇩🇪</span> <span><strong>Acheteurs B2B</strong> allemands</span></div>
+    </div>
+  </section>
+</div>
+
+<hr class="divider" />
+
+<!-- CONTEXT -->
+<div class="container" id="contexte">
+  <section>
+    <div class="section-label"><span class="num">01</span> Contexte</div>
+    <h2>Situation actuelle & opportunité</h2>
+    <p class="section-intro">Une fonctionnalité à fort potentiel revenue, mais une suspicion de friction perceptive sur le marché cible.</p>
+
+    <div class="context-layout">
+      <div class="context-card">
+        <h3>Aujourd'hui — Format Carrousel</h3>
+        <div class="status-today">
+          <div class="status-item">
+            <div class="status-icon bg-green">✓</div>
+            <span>Forte contribution au revenue assisté quand utilisé</span>
+          </div>
+          <div class="status-item">
+            <div class="status-icon bg-blue">📊</div>
+            <span>Présent sur toutes les pages produit</span>
+          </div>
+          <div class="status-item">
+            <div class="status-icon bg-amber">⚠</div>
+            <span>Suspicion d'une perception « publicitaire » sur le marché allemand</span>
+          </div>
+        </div>
+        <div class="hypothesis-box">
+          <div class="label">Hypothèse centrale</div>
+          <p>Un format Liste, plus proche d'une page catégorie, pourrait réduire l'effet « bannière » et augmenter l'intention d'usage.</p>
+        </div>
+      </div>
+
+      <div class="context-card">
+        <h3>Le problème à résoudre</h3>
+        <div class="status-today">
+          <div class="status-item">
+            <div class="status-icon bg-red">?</div>
+            <span>Le carrousel est-il réellement ignoré comme une publicité ?</span>
+          </div>
+          <div class="status-item">
+            <div class="status-icon bg-red">?</div>
+            <span>La liste changerait-elle la perception et l'intention ?</span>
+          </div>
+          <div class="status-item">
+            <div class="status-icon bg-red">?</div>
+            <span>Y a-t-il un risque de dégradation si on change de format ?</span>
+          </div>
+        </div>
+        <div class="hypothesis-box" style="background: linear-gradient(135deg, var(--amber-light), #fef9c3); border-color: #fde68a;">
+          <div class="label" style="color: var(--amber);">Enjeu business</div>
+          <p>Augmenter le taux d'utilisation des recommandations → uplift du revenue assisté.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
+
+<hr class="divider" />
+
+<!-- OBJECTIVES -->
+<div class="container">
+  <section>
+    <div class="section-label"><span class="num">02</span> Objectifs</div>
+    <h2>Deux niveaux d'ambition</h2>
+    <p class="section-intro">Un test à double lecture — business et research — pour aligner toutes les parties prenantes.</p>
+
+    <div class="card-grid card-grid-2">
+      <div class="obj-card business">
+        <div class="obj-icon">📈</div>
+        <div class="obj-tag">Business Goal</div>
+        <h3>Améliorer le taux d'utilisation des recommandations</h3>
+        <p>Comprendre quel format visuel maximise l'engagement déclaré avec la zone de recommandations, en vue d'augmenter le revenue assisté sur la page produit.</p>
+      </div>
+      <div class="obj-card research">
+        <div class="obj-icon">🔬</div>
+        <div class="obj-tag">Research Goal</div>
+        <h3>Comparer perception & intention entre les deux formats</h3>
+        <p>Évaluer objectivement si le format Liste réduit la perception publicitaire et génère une intention de clic plus élevée que le Carrousel actuel.</p>
+      </div>
+    </div>
+  </section>
+</div>
+
+<hr class="divider" />
+
+<!-- FORMAT COMPARISON -->
+<div class="container">
+  <section>
+    <div class="section-label"><span class="num">03</span> Les deux formats testés</div>
+    <h2>A vs. B — Test comparatif séquentiel</h2>
+    <p class="section-intro">Prototypes statiques présentés dans un ordre randomisé. Pas d'interaction mesurée à ce stade.</p>
+
+    <div class="format-compare">
+      <div class="format-card current">
+        <div class="format-badge">🅰 Actuel</div>
+        <div class="format-letter">A</div>
+        <div class="format-name">Format Carrousel</div>
+        <div class="format-mockup">
+          <div class="mock-label">Simulation visuelle</div>
+          <div class="mock-carousel">
+            <div class="mock-card"></div>
+            <div class="mock-card"></div>
+            <div class="mock-card"></div>
+            <div class="mock-card" style="opacity:.4"></div>
+          </div>
+        </div>
+        <ul class="format-props">
+          <li>Défilement horizontal</li>
+          <li>Présente peu d'items à la fois</li>
+          <li>Fort potentiel revenue documenté</li>
+          <li>Suspicion d'effet « publicité »</li>
+        </ul>
+      </div>
+
+      <div class="format-card concept">
+        <div class="format-badge">🅱 Concept</div>
+        <div class="format-letter">B</div>
+        <div class="format-name">Format Liste</div>
+        <div class="format-mockup">
+          <div class="mock-label">Simulation visuelle</div>
+          <div class="mock-list-item" style="width:100%"></div>
+          <div class="mock-list-item"></div>
+          <div class="mock-list-item"></div>
+          <div class="mock-list-item" style="width:55%"></div>
+        </div>
+        <ul class="format-props">
+          <li>Présentation verticale, dense</li>
+          <li>Proche d'une page catégorie</li>
+          <li>Hypothèse : perception moins publicitaire</li>
+          <li>Hypothèse : intention d'usage plus élevée</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+</div>
+
+<hr class="divider" />
+
+<!-- HYPOTHESES -->
+<div class="container" id="hypotheses">
+  <section>
+    <div class="section-label"><span class="num">04</span> Hypothèses testées</div>
+    <h2>Ce que nous cherchons à valider</h2>
+    <p class="section-intro">Trois hypothèses opérationnelles, mesurables, indépendantes.</p>
+
+    <div class="hyp-cards">
+      <div class="hyp-card">
+        <div class="hyp-id">H1</div>
+        <div>
+          <div class="hyp-text">Le format Liste est perçu comme moins publicitaire que le carrousel.</div>
+          <div class="hyp-sub">Mesure principale : score de perception publicitaire (échelle 1–7), différence significative entre A et B.</div>
+        </div>
+      </div>
+      <div class="hyp-card">
+        <div class="hyp-id">H2</div>
+        <div>
+          <div class="hyp-text">Le format Liste génère une intention déclarée de clic plus élevée.</div>
+          <div class="hyp-sub">Mesure principale : score composite d'intention (matrice 4 items), supérieur pour B vs. A.</div>
+        </div>
+      </div>
+      <div class="hyp-card">
+        <div class="hyp-id">H3</div>
+        <div>
+          <div class="hyp-text">Le carrousel est plus facilement ignoré (effet « banner blindness »).</div>
+          <div class="hyp-sub">Mesure principale : item d'intention d'ignorer (inversé), score plus élevé pour A que pour B.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
+
+<hr class="divider" />
+
+<!-- TARGET -->
+<div class="container">
+  <section>
+    <div class="section-label"><span class="num">05</span> Cible</div>
+    <h2>Profil des participants</h2>
+    <p class="section-intro">Des acheteurs professionnels correspondant précisément à notre ICP sur le marché allemand.</p>
+
+    <div class="target-grid">
+      <div class="target-item">
+        <div class="t-icon">🇩🇪</div>
+        <p>Acheteurs professionnels <strong>allemands</strong></p>
+      </div>
+      <div class="target-item">
+        <div class="t-icon">📦</div>
+        <p>Responsables d'achat en <strong>fournitures d'emballage</strong></p>
+      </div>
+      <div class="target-item">
+        <div class="t-icon">✅</div>
+        <p><strong>Décideurs ou co-décideurs</strong> dans le processus d'achat</p>
+      </div>
+      <div class="target-item">
+        <div class="t-icon">💻</div>
+        <p>Commandent <strong>régulièrement en ligne</strong></p>
+      </div>
+    </div>
+  </section>
+</div>
+
+<hr class="divider" />
+
+<!-- METHODOLOGY -->
+<div class="container" id="methodo">
+  <section>
+    <div class="section-label"><span class="num">06</span> Méthodologie</div>
+    <h2>Design du test</h2>
+    <p class="section-intro">Non modéré, comparatif, séquentiel — optimisé pour une collecte rapide et une analyse rigoureuse.</p>
+
+    <div class="method-grid">
+      <div class="method-item">
+        <div class="method-key">Plateforme</div>
+        <div class="method-val accent">UserTesting</div>
+      </div>
+      <div class="method-item">
+        <div class="method-key">Format</div>
+        <div class="method-val">Non modéré</div>
+      </div>
+      <div class="method-item">
+        <div class="method-key">Feedback</div>
+        <div class="method-val">Écrit uniquement</div>
+      </div>
+      <div class="method-item">
+        <div class="method-key">Durée</div>
+        <div class="method-val">15 – 20 min</div>
+      </div>
+      <div class="method-item">
+        <div class="method-key">Design</div>
+        <div class="method-val">Comparatif séquentiel</div>
+      </div>
+      <div class="method-item">
+        <div class="method-key">Ordre</div>
+        <div class="method-val accent">Randomisé (A→B ou B→A)</div>
+      </div>
+      <div class="method-item">
+        <div class="method-key">Prototypes</div>
+        <div class="method-val">Statiques · pas d'interaction</div>
+      </div>
+      <div class="method-item">
+        <div class="method-key">Échantillon</div>
+        <div class="method-val accent">n ≈ 50 participants</div>
+      </div>
+    </div>
+  </section>
+</div>
+
+<hr class="divider" />
+
+<!-- MEASURES -->
+<div class="container">
+  <section>
+    <div class="section-label"><span class="num">07</span> Mesures collectées</div>
+    <h2>Données quantitatives & qualitatives</h2>
+    <p class="section-intro">Un protocole mixte pour capturer à la fois des scores comparables et la richesse des verbatims.</p>
+
+    <div class="measures-grid">
+      <div class="measures-block">
+        <h3 class="quant">📊 Quantitatives</h3>
+        <ul class="measure-list">
+          <li><div class="measure-dot"></div><span>Perception publicitaire <strong>(échelle 1–7)</strong></span></li>
+          <li><div class="measure-dot"></div><span>Intention de clic <strong>(matrice 4 items)</strong></span></li>
+          <li><div class="measure-dot"></div><span>Intention d'ignorer <strong>(item inversé)</strong></span></li>
+          <li><div class="measure-dot"></div><span>Préférence globale <strong>A vs. B</strong></span></li>
+          <li><div class="measure-dot"></div><span>Temps passé <strong>par écran</strong></span></li>
+        </ul>
+      </div>
+      <div class="measures-block">
+        <h3 class="qual">💬 Qualitatives</h3>
+        <ul class="measure-list">
+          <li><div class="measure-dot"></div><span>Raisons de perception publicitaire</span></li>
+          <li><div class="measure-dot"></div><span>Verbatims sur le ressenti général</span></li>
+          <li><div class="measure-dot"></div><span>Explication de la préférence déclarée</span></li>
+          <li><div class="measure-dot"></div><span>Freins cognitifs identifiés</span></li>
+        </ul>
+      </div>
+    </div>
+  </section>
+</div>
+
+<hr class="divider" />
+
+<!-- KPIs -->
+<div class="container" id="kpis">
+  <section>
+    <div class="section-label"><span class="num">08</span> KPIs clés</div>
+    <h2>Ce qu'on mesurera pour décider</h2>
+    <p class="section-intro">Cinq indicateurs principaux, avec un seuil de significativité statistique entre A et B.</p>
+
+    <div class="kpi-grid">
+      <div class="kpi-card">
+        <div class="kpi-label">KPI 01</div>
+        <div class="kpi-name">Score moyen « Perception publicitaire »</div>
+        <div class="kpi-bar"><div class="kpi-bar-fill"></div></div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-label">KPI 02</div>
+        <div class="kpi-name">Score composite « Intention »</div>
+        <div class="kpi-bar"><div class="kpi-bar-fill"></div></div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-label">KPI 03</div>
+        <div class="kpi-name">% préférant Liste vs. Carrousel</div>
+        <div class="kpi-bar"><div class="kpi-bar-fill"></div></div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-label">KPI 04</div>
+        <div class="kpi-name">% déclarant ignorer la zone</div>
+        <div class="kpi-bar"><div class="kpi-bar-fill"></div></div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-label">KPI 05</div>
+        <div class="kpi-name">Différences statistiques entre formats</div>
+        <div class="kpi-bar"><div class="kpi-bar-fill"></div></div>
+      </div>
+    </div>
+  </section>
+</div>
+
+<hr class="divider" />
+
+<!-- SCOPE -->
+<div class="container">
+  <section>
+    <div class="section-label"><span class="num">09</span> Périmètre de décision</div>
+    <h2>Ce que ce test permet — et ne permet pas</h2>
+    <p class="section-intro">Clarifier le périmètre dès maintenant évite les mauvaises surprises à l'analyse.</p>
+
+    <div class="scope-grid">
+      <div class="scope-block will">
+        <h3>✓ Ce test permettra de trancher</h3>
+        <ul class="scope-list">
+          <li><span class="scope-check">✅</span><span>Le format Liste réduit-il la perception publicitaire ?</span></li>
+          <li><span class="scope-check">✅</span><span>Le format Liste augmente-t-il l'intention déclarée de consultation ?</span></li>
+          <li><span class="scope-check">✅</span><span>Le carrousel est-il réellement perçu comme promotionnel ?</span></li>
+          <li><span class="scope-check">✅</span><span>Existe-t-il un risque de dégradation d'intention avec le changement ?</span></li>
+        </ul>
+      </div>
+      <div class="scope-block wont">
+        <h3>✗ Ce test ne permettra PAS de décider</h3>
+        <ul class="scope-list">
+          <li><span class="scope-check">🚫</span><span>L'impact réel sur le taux de clic</span></li>
+          <li><span class="scope-check">🚫</span><span>L'impact réel sur le panier / l'AOV</span></li>
+          <li><span class="scope-check">🚫</span><span>Les effets comportementaux liés à l'interaction</span></li>
+          <li><span class="scope-check">🚫</span><span>→ Ces décisions relèveront du futur A/B test live</span></li>
+        </ul>
+      </div>
+    </div>
+  </section>
+</div>
+
+<hr class="divider" />
+
+<!-- RATIONALE -->
+<div class="container">
+  <section>
+    <div class="section-label"><span class="num">10</span> Pourquoi avant l'A/B test ?</div>
+    <h2>La valeur de ce test dans la séquence</h2>
+
+    <div class="rationale-card">
+      <h3>Un A/B test live mesure le comportement. Mais s'il n'y a pas de différence significative, on ne saura pas pourquoi.</h3>
+      <p>Ce test perceptif permet d'identifier les mécanismes <em>avant</em> le déploiement, et de ne lancer un A/B test que sur une hypothèse solide.</p>
+      <ul class="rationale-list">
+        <li><span class="r-icon">🧠</span><span>Identifier les mécanismes perceptifs et cognitifs</span></li>
+        <li><span class="r-icon">🔓</span><span>Comprendre les freins à l'engagement</span></li>
+        <li><span class="r-icon">🛡</span><span>Réduire le risque avant déploiement en production</span></li>
+        <li><span class="r-icon">🚀</span><span>Éviter de lancer un A/B test sur une hypothèse faible</span></li>
+      </ul>
+    </div>
+  </section>
+</div>
+
+<hr class="divider" />
+
+<!-- EXCLUSION -->
+<div class="container">
+  <section>
+    <div class="section-label"><span class="num">11</span> Exclusion volontaire</div>
+    <h2>Ce que nous avons retiré du scope</h2>
+    <p class="section-intro">Une décision méthodologique délibérée pour garder le test focalisé.</p>
+
+    <div class="exclusion-card">
+      <div class="exclusion-icon">🔕</div>
+      <div>
+        <h4>Dimension Relevanz & Glaubwürdigkeit exclue</h4>
+        <p>Nous comparons uniquement l'impact du <strong>format visuel</strong>. La pertinence produit des recommandations n'est pas l'objet de cette étude — elle sera contrôlée, pas mesurée. L'introduire risquerait de polluer les résultats avec un biais de contenu.</p>
+      </div>
+    </div>
+  </section>
+</div>
+
+<hr class="divider" />
+
+<!-- SAMPLE SIZE -->
+<div class="container">
+  <section>
+    <div class="section-label"><span class="num">12</span> Taille d'échantillon</div>
+    <h2>Pourquoi n ≈ 50 ?</h2>
+
+    <div class="sample-card">
+      <div class="sample-num">40<span>–60</span></div>
+      <div class="sample-text">
+        <h3>Participants minimum recommandés</h3>
+        <p>Cette taille d'échantillon permet de détecter un <strong>effet modéré entre A et B</strong> avec une puissance statistique suffisante. En dessous de 40, on risque de manquer un effet réel. Au-delà de 60, le coût marginal de chaque participant ne justifie pas le gain en précision pour un test perceptif déclaratif.</p>
+      </div>
+    </div>
+  </section>
+</div>
+
+<hr class="divider" />
+
+<!-- RISKS -->
+<div class="container">
+  <section>
+    <div class="section-label"><span class="num">13</span> Risques méthodologiques</div>
+    <h2>Identifiés & mitigés</h2>
+    <p class="section-intro">Une transparence totale sur les limites du design, avec les contre-mesures en place.</p>
+
+    <div class="risk-grid">
+      <div class="risk-row">
+        <div class="risk-item danger">
+          <h4>⚠ Risque</h4>
+          <p>Déclaratif ≠ comportement réel</p>
+        </div>
+        <div class="risk-item mitigation">
+          <h4>✓ Mitigation</h4>
+          <p>Suivi par un A/B test live pour valider comportementalement</p>
+        </div>
+      </div>
+      <div class="risk-row">
+        <div class="risk-item danger">
+          <h4>⚠ Risque</h4>
+          <p>Pas d'interaction mesurée (scroll, clic réel)</p>
+        </div>
+        <div class="risk-item mitigation">
+          <h4>✓ Mitigation</h4>
+          <p>Prototypes statiques assumés — décision documentée dans le scope</p>
+        </div>
+      </div>
+      <div class="risk-row">
+        <div class="risk-item danger">
+          <h4>⚠ Risque</h4>
+          <p>Biais d'ordre si pas randomisé (primacy / recency)</p>
+        </div>
+        <div class="risk-item mitigation">
+          <h4>✓ Mitigation</h4>
+          <p>Ordre randomisé côté UserTesting (A→B ou B→A)</p>
+        </div>
+      </div>
+      <div class="risk-row">
+        <div class="risk-item danger">
+          <h4>⚠ Risque</h4>
+          <p>Effet de comparaison forcée (demande caractéristique)</p>
+        </div>
+        <div class="risk-item mitigation">
+          <h4>✓ Mitigation</h4>
+          <p>Matrices standardisées + items inversés pour neutraliser le biais de désirabilité</p>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
+
+<hr class="divider" />
+
+<!-- ROADMAP -->
+<div class="container">
+  <section>
+    <div class="section-label"><span class="num">14</span> Roadmap</div>
+    <h2>Plan après ce test</h2>
+    <p class="section-intro">Deux scénarios clairs — et une suite d'action définie pour chacun.</p>
+
+    <div class="ifthen-grid" style="margin-bottom: 3rem;">
+      <div class="ifthen-card yes">
+        <h3>Si différence perceptive significative</h3>
+        <div class="ifthen-condition">🟢 H1 ou H2 validée</div>
+        <ul class="ifthen-actions">
+          <li>Lancer l'A/B test live en production</li>
+          <li>Mesurer le CTR sur la zone recommandations</li>
+          <li>Mesurer l'uplift panier / revenue assisté</li>
+        </ul>
+      </div>
+      <div class="ifthen-card no">
+        <h3>Si pas de différence significative</h3>
+        <div class="ifthen-condition">🟡 Aucune hypothèse validée</div>
+        <ul class="ifthen-actions">
+          <li>Reconsidérer l'hypothèse de départ</li>
+          <li>Explorer d'autres variables : hiérarchie visuelle, densité, pricing, labels</li>
+          <li>Éviter un A/B test sur une base fragilisée</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="roadmap">
+      <div class="roadmap-step">
+        <div class="roadmap-dot">1</div>
+        <div class="step-tag">Maintenant</div>
+        <h4>Go de l'équipe produit</h4>
+        <p>Validation budget, échantillon, calendrier</p>
+      </div>
+      <div class="roadmap-step">
+        <div class="roadmap-dot">2</div>
+        <div class="step-tag">Semaine 1</div>
+        <h4>Lancement UserTesting</h4>
+        <p>Configuration, prototypes, mise en ligne</p>
+      </div>
+      <div class="roadmap-step">
+        <div class="roadmap-dot">3</div>
+        <div class="step-tag">Semaine 1–2</div>
+        <h4>Collecte & analyse</h4>
+        <p>Dépouillement quant. + thématisation verbatims</p>
+      </div>
+      <div class="roadmap-step">
+        <div class="roadmap-dot">4</div>
+        <div class="step-tag">Semaine 2</div>
+        <h4>Recommandation & décision</h4>
+        <p>Go / No-go A/B test live</p>
+      </div>
+    </div>
+  </section>
+</div>
+
+<!-- CTA DECISION -->
+<div class="container" id="decision">
+  <div class="cta-section">
+    <h2>🎯 Décision attendue de l'équipe produit</h2>
+    <p>Quatre points à valider pour lancer ce test dans les meilleurs délais.</p>
+
+    <div class="cta-items">
+      <div class="cta-item">
+        <div class="ci-check">✓</div>
+        <span>Lancement du test UserTesting</span>
+      </div>
+      <div class="cta-item">
+        <div class="ci-check">✓</div>
+        <span>Budget associé</span>
+      </div>
+      <div class="cta-item">
+        <div class="ci-check">✓</div>
+        <span>Échantillon cible (n ≈ 50)</span>
+      </div>
+      <div class="cta-item">
+        <div class="ci-check">✓</div>
+        <span>Calendrier ≈ 2 semaines incl. analyse</span>
+      </div>
+    </div>
+
+    <div class="cta-buttons">
+      <a href="#" class="btn-primary">✅ Valider le test</a>
+      <a href="#" class="btn-secondary">💬 Demander des modifications</a>
+    </div>
+  </div>
+</div>
+
+<footer>
+  User Research · Carrousel vs. Liste · Marché B2B Allemand &nbsp;·&nbsp; Document de validation interne
+</footer>
+
+</body>
+</html>
