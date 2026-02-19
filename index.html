@@ -548,6 +548,33 @@
     }
     .sdiv .n { font-size: var(--fs-xs); font-weight: 800; background: var(--blue); color: #fff; padding: .1rem .4rem; border-radius: var(--r); }
     .sdiv::after { content: ''; flex: 1; height: 1px; background: var(--border); }
+
+    /* ── PRINT / PDF ── */
+    @media print {
+      @page { size: 1280px 720px; margin: 0; }
+      html, body { height: auto !important; overflow: visible !important; background: #f2f4f9; }
+      #prog, .hdr, .ftr { display: none !important; }
+      .deck {
+        position: static !important;
+        height: auto !important;
+        overflow: visible !important;
+      }
+      .slide {
+        position: relative !important;
+        display: block !important;
+        opacity: 1 !important;
+        pointer-events: all !important;
+        transform: none !important;
+        height: 720px !important;
+        width: 1280px !important;
+        overflow: hidden !important;
+        page-break-after: always;
+        break-after: page;
+      }
+      .slide:last-child { page-break-after: avoid; break-after: avoid; }
+      /* slide 1 hero needs fixed height for split */
+      .s1-grid { min-height: 680px !important; }
+    }
   </style>
 </head>
 <body>
